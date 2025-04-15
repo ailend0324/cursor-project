@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4K视频兴趣探索 | 宾宾的创作之旅</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preline UI 组件库 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.css" />
+    <!-- Font Awesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* 全局样式 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+        
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* 提前定义过渡效果，避免切换模式时突变 */
+        .bg-white, .bg-gray-50, .bg-gray-100, .bg-gray-200, .dark\:bg-gray-700, .dark\:bg-gray-800, .dark\:bg-gray-900,
+        .text-gray-300, .text-gray-400, .text-gray-600, .text-gray-700, .text-gray-800, .dark\:text-gray-200, .dark\:text-gray-300, .dark\:text-gray-400 {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* 保持卡片内容高度一致 */
+        .hover-card {
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 卡片内容布局优化 */
+        .hover-card .flex {
+            flex: 1;
+        }
+        
+        /* 安全提示框高度优化 */
+        .bg-yellow-50.dark\:bg-yellow-900\/30 {
+            transition: background-color 0.3s ease;
+        }
+        
+        .section-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .section-fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* 表格样式 */
+        .custom-table th {
+            background-color: rgba(14, 165, 233, 0.1);
+            transition: background-color 0.3s ease;
+        }
+        
+        .custom-table tr:hover {
+            background-color: rgba(14, 165, 233, 0.05);
+        }
+        
+        /* 徽章样式 */
+        .badge-bronze {
+            background: linear-gradient(135deg, #CF7F32 0%, #e3a875 100%);
+        }
+        
+        .badge-silver {
+            background: linear-gradient(135deg, #C0C0C0 0%, #e6e6e6 100%);
+        }
+        
+        .badge-gold {
+            background: linear-gradient(135deg, #FFD700 0%, #FFC125 100%);
+        }
+        
+        .badge-platinum {
+            background: linear-gradient(135deg, #E5E4E2 0%, #ffffff 100%);
+        }
+        
+        .badge-diamond {
+            background: linear-gradient(135deg, #b9f2ff 0%, #e6fcff 100%);
+        }
+        
+        /* 进度条样式 */
+        .progress-bar {
+            height: 8px;
+            background-color: #e0f2fe;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: background-color 0.3s ease;
+        }
+        
+        .progress-value {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #38bdf8 0%, #0ea5e9 100%);
+            transition: width 1s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 antialiased min-h-screen">
+    <!-- 导航栏 -->
+    <header class="sticky top-0 z-50 w-full bg-white dark:bg-gray-800 shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-video text-primary-500 text-xl"></i>
+                <h1 class="text-lg md:text-xl font-bold">4K视频探索</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <a href="../../index.html" class="text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition">
+                    <i class="fas fa-home mr-1"></i> 返回首页
+                </a>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-sun dark:hidden"></i>
+                    <i class="fas fa-moon hidden dark:block"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容 -->
+    <main class="container mx-auto px-4 py-8 max-w-5xl">
+        <!-- 标题区 -->
+        <section class="mb-12 text-center section-fade-in">
+            <div class="rounded-2xl bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900 dark:to-primary-800 p-8 shadow-lg">
+                <h1 class="text-3xl md:text-4xl font-bold mb-4">嘿！宾宾！探索4K视频的奇妙世界！✨</h1>
+                <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+                    听说你对4K视频感兴趣？太棒了！我在这个精彩的高清世界里"混"了好多年，从当初什么都不懂的小白，到现在也算摸索出不少门道。把我当成你的探险伙伴吧！我想和你分享一些我的"秘籍"和"地图"，让你的4K视频之旅更加顺畅有趣！
+                </p>
+                <div class="mt-6">
+                    <span class="inline-block animate-bounce bg-primary-500 text-white rounded-full p-3">
+                        <i class="fas fa-chevron-down"></i>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心秘籍部分 -->
+        <section id="core-skills" class="mb-16 section-fade-in">
+            <div class="flex items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <i class="fas fa-key text-yellow-500 text-2xl mr-3"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">解锁核心秘籍：玩转4K视频的80/20法则</h2>
+            </div>
+            
+            <p class="text-lg mb-6">想快速掌握4K视频的精髓？就像游戏中先点亮核心技能一样，我帮你梳理了最关键的知识点，哪些是"必学精华"，哪些是"锦上添花"：</p>
+            
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse custom-table">
+                    <thead>
+                        <tr class="border-b-2 border-gray-200 dark:border-gray-700">
+                            <th class="py-3 px-4 font-semibold">关键秘籍/技能点 🔑</th>
+                            <th class="py-3 px-4 font-semibold">为啥它这么重要/好玩？😎</th>
+                            <th class="py-3 px-4 font-semibold">重要指数 🌟</th>
+                            <th class="py-3 px-4 font-semibold">上手难度 🚦</th>
+                            <th class="py-3 px-4 font-semibold">过来人小提示 💡</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">分辨率与像素</td>
+                            <td class="py-3 px-4">4K(3840×2160)的惊人细节是一切的基础，理解它让你明白为什么画面如此清晰</td>
+                            <td class="py-3 px-4">⭐⭐⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-green-500"></span></td>
+                            <td class="py-3 px-4">用放大镜观察普通视频和4K视频的区别，你会惊讶于细节的差距！</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">色彩深度与HDR</td>
+                            <td class="py-3 px-4">HDR比普通视频能展现更丰富的明暗层次，让画面更逼真</td>
+                            <td class="py-3 px-4">⭐⭐⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-yellow-500"></span></td>
+                            <td class="py-3 px-4">拍摄时注意光线对比，HDR在光影强烈的场景中效果最佳</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">视频编码格式</td>
+                            <td class="py-3 px-4">决定视频质量与文件大小的平衡，H.265比H.264更高效</td>
+                            <td class="py-3 px-4">⭐⭐⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-yellow-500"></span></td>
+                            <td class="py-3 px-4">先用H.264练手，熟悉后再尝试H.265，压缩率提升约50%</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">取景构图</td>
+                            <td class="py-3 px-4">好的构图让4K视频锦上添花，内容与技术相得益彰</td>
+                            <td class="py-3 px-4">⭐⭐⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-green-500"></span></td>
+                            <td class="py-3 px-4">学习"三分法则"，简单却能让画面立刻专业很多</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">稳定性控制</td>
+                            <td class="py-3 px-4">手抖会毁掉最好的4K画质，稳定拍摄是基础中的基础</td>
+                            <td class="py-3 px-4">⭐⭐⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-yellow-500"></span></td>
+                            <td class="py-3 px-4">没有云台也没关系，双手持机，贴紧身体，呼吸平稳</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">视频后期软件</td>
+                            <td class="py-3 px-4">后期处理决定了成品质量，选对软件事半功倍</td>
+                            <td class="py-3 px-4">⭐⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-red-500"></span></td>
+                            <td class="py-3 px-4">先用简单的剪辑软件(如剪映)，再逐步学习高级软件(如PR)</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">光线控制</td>
+                            <td class="py-3 px-4">光线是视频的灵魂，4K下的光影更加细腻动人</td>
+                            <td class="py-3 px-4">⭐⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-yellow-500"></span></td>
+                            <td class="py-3 px-4">黄金时段(日出后/日落前)拍摄效果最佳，光线柔和自然</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">音频质量</td>
+                            <td class="py-3 px-4">一流的画面配糟糕的声音=失败，好音频让体验更沉浸</td>
+                            <td class="py-3 px-4">⭐⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-yellow-500"></span></td>
+                            <td class="py-3 px-4">即使用手机麦克风，也要注意环境噪音，靠近声源拍摄</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">转场技巧</td>
+                            <td class="py-3 px-4">流畅的转场让4K视频更有故事感和连贯性</td>
+                            <td class="py-3 px-4">⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-green-500"></span></td>
+                            <td class="py-3 px-4">不要滥用花哨转场，简单切换往往最有效</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">色彩校正</td>
+                            <td class="py-3 px-4">调整色彩让4K视频更具表现力和风格</td>
+                            <td class="py-3 px-4">⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-red-500"></span></td>
+                            <td class="py-3 px-4">从了解基本的对比度、饱和度开始，慢慢摸索自己的风格</td>
+                        </tr>
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            <td class="py-3 px-4 font-medium">镜头语言</td>
+                            <td class="py-3 px-4">不同的镜头表达不同的情感，讲述你的故事</td>
+                            <td class="py-3 px-4">⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-yellow-500"></span></td>
+                            <td class="py-3 px-4">观察你喜欢的电影是如何用镜头讲故事的，模仿学习</td>
+                        </tr>
+                        <tr>
+                            <td class="py-3 px-4 font-medium">视频压缩原理</td>
+                            <td class="py-3 px-4">了解压缩如何影响4K视频质量，避免不必要的画质损失</td>
+                            <td class="py-3 px-4">⭐⭐⭐</td>
+                            <td class="py-3 px-4"><span class="inline-block w-4 h-4 rounded-full bg-red-500"></span></td>
+                            <td class="py-3 px-4">导出视频时，不要一味追求小文件，找到质量和大小的平衡点</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                <div class="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                    <div class="flex items-center">
+                        <span class="inline-block w-3 h-3 rounded-full bg-green-500 mr-1"></span>
+                        <span>简单</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="inline-block w-3 h-3 rounded-full bg-yellow-500 mr-1"></span>
+                        <span>中等</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="inline-block w-3 h-3 rounded-full bg-red-500 mr-1"></span>
+                        <span>复杂</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 史诗级冒险地图 -->
+        <section id="achievement-map" class="mb-16 section-fade-in">
+            <div class="flex items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <i class="fas fa-trophy text-amber-500 text-2xl mr-3"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">你的"史诗级"冒险地图：一步步解锁成就！</h2>
+            </div>
+            
+            <p class="text-lg mb-8">光说不练假把式！真正的乐趣在于动手创作。我给你规划了一张成长地图，每当解锁一个里程碑，你都会感觉自己升级了！相信我，那种看到自己进步的感觉，超爽的！</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 第一关 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full badge-bronze flex items-center justify-center text-white text-xl mr-4">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">第一关：初识4K的魔力</h3>
+                            <p class="text-primary-600 dark:text-primary-400">"高清世界的第一扇窗"</p>
+                        </div>
+                    </div>
+                    <p class="mb-4 text-gray-700 dark:text-gray-300">当你第一次在大屏幕上观看自己拍摄的4K视频，看到那些肉眼难以捕捉的细节清晰呈现，那种"哇，原来世界可以这么清晰"的震撼感，会让你瞬间爱上这个hobby！</p>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center"><i class="fas fa-tasks text-primary-500 mr-2"></i> 小任务</h4>
+                        <p>用手机或相机的4K模式，拍摄一个简单的30秒视频，选择有丰富细节的场景(如：树叶、花朵或城市远景)。</p>
+                    </div>
+                </div>
+                
+                <!-- 第二关 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full badge-bronze flex items-center justify-center text-white text-xl mr-4">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">第二关：稳如泰山</h3>
+                            <p class="text-primary-600 dark:text-primary-400">"稳定器入门"</p>
+                        </div>
+                    </div>
+                    <p class="mb-4 text-gray-700 dark:text-gray-300">当你掌握了基本的手持稳定技巧，回看视频时不再天旋地转，画面流畅得像专业制作，那种"看起来就像电影"的成就感会给你极大信心！</p>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center"><i class="fas fa-tasks text-primary-500 mr-2"></i> 小任务</h4>
+                        <p>学习3种手持稳定技巧，尝试拍摄行走镜头，对比使用稳定技巧前后的差异。</p>
+                    </div>
+                </div>
+                
+                <!-- 第三关 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full badge-silver flex items-center justify-center text-white text-xl mr-4">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">第三关：光影魔术师</h3>
+                            <p class="text-primary-600 dark:text-primary-400">"捕捉黄金时刻"</p>
+                        </div>
+                    </div>
+                    <p class="mb-4 text-gray-700 dark:text-gray-300">当你学会利用自然光线，在黄金时段(日出或日落时)拍摄视频，那种柔和光线赋予画面的质感，会让你惊叹"原来我也能拍出这么美的画面！"</p>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center"><i class="fas fa-tasks text-primary-500 mr-2"></i> 小任务</h4>
+                        <p>在日落前1小时，拍摄同一个场景的变化，感受光线如何塑造氛围。</p>
+                    </div>
+                </div>
+                
+                <!-- 第四关 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full badge-silver flex items-center justify-center text-white text-xl mr-4">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">第四关：构图艺术家</h3>
+                            <p class="text-primary-600 dark:text-primary-400">"框中有乾坤"</p>
+                        </div>
+                    </div>
+                    <p class="mb-4 text-gray-700 dark:text-gray-300">当你运用三分法则、引导线等构图技巧，画面瞬间从业余变专业，朋友看到后惊讶地问"这真是你拍的？"，那种被认可的感觉太棒了！</p>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center"><i class="fas fa-tasks text-primary-500 mr-2"></i> 小任务</h4>
+                        <p>用三分法则拍摄5个不同主题的短视频，对比随意构图和精心构图的视觉效果。</p>
+                    </div>
+                </div>
+                
+                <!-- 第五关 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full badge-silver flex items-center justify-center text-white text-xl mr-4">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">第五关：剪辑小能手</h3>
+                            <p class="text-primary-600 dark:text-primary-400">"故事讲述者"</p>
+                        </div>
+                    </div>
+                    <p class="mb-4 text-gray-700 dark:text-gray-300">当你第一次完成一个有头有尾的小视频，加入转场、配乐，然后分享给朋友，收获一连串的点赞和评论，那种"我创造了something special"的感觉，会让你彻夜难眠想继续创作！</p>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center"><i class="fas fa-tasks text-primary-500 mr-2"></i> 小任务</h4>
+                        <p>用你拍摄的素材，剪辑一个30秒-1分钟的小短片，加入简单转场和音乐。</p>
+                    </div>
+                </div>
+                
+                <!-- 第六关 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full badge-gold flex items-center justify-center text-white text-xl mr-4">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">第六关：色彩魔法师</h3>
+                            <p class="text-primary-600 dark:text-primary-400">"调色师的魔法棒"</p>
+                        </div>
+                    </div>
+                    <p class="mb-4 text-gray-700 dark:text-gray-300">当你掌握基本调色技巧，一键让原本普通的画面变得富有电影感，出现你想要的风格和氛围，那种"我能控制画面的每一个像素"的掌控感，简直上瘾！</p>
+                    <div class="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg">
+                        <h4 class="font-medium mb-2 flex items-center"><i class="fas fa-tasks text-primary-500 mr-2"></i> 小任务</h4>
+                        <p>学习基础调色，为你的短片尝试两种不同风格的色彩处理。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 高级挑战卡片 -->
+            <div class="mt-8 bg-gradient-to-r from-primary-50 to-blue-50 dark:from-primary-900 dark:to-blue-900 rounded-xl shadow-lg p-6">
+                <h3 class="text-xl font-bold mb-4 flex items-center">
+                    <i class="fas fa-star text-yellow-500 mr-2"></i> 更高级的挑战
+                </h3>
+                <p class="mb-4">随着你的技能不断提升，还有更多精彩的成就等待你解锁：</p>
+                <ul class="space-y-3">
+                    <li class="flex items-start">
+                        <div class="w-8 h-8 rounded-full badge-gold flex items-center justify-center text-white text-sm mr-3 mt-1">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">4K故事大师 - "小导演的处女作"</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">整合所有技能，完成一个有剧情、有情感的完整短片</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="w-8 h-8 rounded-full badge-platinum flex items-center justify-center text-white text-sm mr-3 mt-1">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">多设备玩家 - "装备升级"</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">尝试使用不同设备(如无人机、运动相机)拍摄4K视频</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="w-8 h-8 rounded-full badge-platinum flex items-center justify-center text-white text-sm mr-3 mt-1">
+                            <i class="fas fa-signature"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">4K创作达人 - "个人风格确立"</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">形成独特的个人风格，人们能够认出你的作品</p>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <div class="w-8 h-8 rounded-full badge-diamond flex items-center justify-center text-gray-800 text-sm mr-3 mt-1">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium">4K视频大师 - "参与专业制作"</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">为学校活动、比赛甚至商业项目制作高质量4K视频作品</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        
+        <!-- 实战训练营 -->
+        <section id="training-camp" class="mb-16 section-fade-in">
+            <div class="flex items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <i class="fas fa-map-marked-alt text-primary-500 text-2xl mr-3"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">实战训练营：日常小练+每周挑战+给力习惯</h2>
+            </div>
+            
+            <p class="text-lg mb-8">高手都是练出来的！我们把练习变得像打怪升级一样有趣：</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 每日热身小任务 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center text-green-500 dark:text-green-400 mr-3">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">每日"热身"小任务</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">选1-2个轻松搞定:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <p>观察练习：每天用手机拍摄一个吸引你的画面，训练你的"摄影眼"</p>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <p>稳定练习：用手机拍摄10秒稳定视频，尽量减少抖动</p>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <p>光线研究：同一场景在不同时间拍摄，对比光线变化</p>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <p>细节发现：用4K模式拍摄一个微小细节，发现肉眼难以察觉的纹理</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 每周探索挑战 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-500 dark:text-blue-400 mr-3">
+                            <i class="fas fa-sword"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">每周"探索"挑战</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">选1个投入试试:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-blue-500 mt-1 mr-2"></i>
+                            <p>主题创作：围绕一个主题(如"对比"、"变化"、"色彩")拍摄并剪辑一个30秒短片</p>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-blue-500 mt-1 mr-2"></i>
+                            <p>模仿练习：选择一个你喜欢的视频片段，尝试模仿其拍摄和剪辑风格</p>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-blue-500 mt-1 mr-2"></i>
+                            <p>音画结合：选一首喜欢的音乐，拍摄并剪辑与之匹配的画面</p>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-blue-500 mt-1 mr-2"></i>
+                            <p>场景转换：拍摄3个不同场景，练习如何通过剪辑自然地连接它们</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 超级充能好习惯 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center text-purple-500 dark:text-purple-400 mr-3">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">"超级充能"好习惯</h3>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">养成这些，你会感谢自己:</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-bolt text-yellow-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium">建立"视觉日记"</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">每天记录一个有趣的画面或想法，久而久之，你会发现自己的观察力和创意库都在悄悄增长！</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-bolt text-yellow-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium">观察分析</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">看电影、广告或MV时，不再是单纯享受，而是分析其构图、光线、剪辑技巧，这会让你的"眼力"飞速提升！</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-bolt text-yellow-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium">定期回顾</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">每月回看自己早期作品，写下进步和需要提升的地方，这是最直观的成长记录！</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-bolt text-yellow-500 mt-1 mr-2"></i>
+                            <div>
+                                <p class="font-medium">整理素材库</p>
+                                <p class="text-sm text-gray-600 dark:text-gray-400">养成拍摄后立即整理分类的习惯，避免素材越积越多找不到，提高后期效率！</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 秘密武器库 -->
+        <section id="secret-weapons" class="mb-16 section-fade-in">
+            <div class="flex items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <i class="fas fa-tools text-purple-500 text-2xl mr-3"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">秘密武器库：学校知识变身超强助攻！</h2>
+            </div>
+            
+            <p class="text-lg mb-8">八年级的知识其实是你4K视频创作的强力后盾！看看这些学科如何变成你的"秘密武器"：</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 物理知识 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900 flex items-center justify-center text-amber-500 dark:text-amber-400 mr-4">
+                            <i class="fas fa-atom"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">物理知识 → 光学应用</h3>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        学习光的反射、折射原理，可以帮你理解为什么顺光、侧光、逆光拍摄效果完全不同，还能帮你掌握如何利用自然光源和反光板打造完美光线！
+                    </p>
+                </div>
+                
+                <!-- 数学思维 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-blue-500 dark:text-blue-400 mr-4">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">数学思维 → 构图技巧</h3>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        学过的比例、黄金分割等概念，直接用于视频构图！三分法则其实就是数学在视觉艺术中的应用，了解这些比例关系能让你快速提升构图水平。
+                    </p>
+                </div>
+                
+                <!-- 语文能力 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-900 flex items-center justify-center text-emerald-500 dark:text-emerald-400 mr-4">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">语文能力 → 故事叙述</h3>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        语文课学习的叙事结构和情节设计，可以直接用于规划你的短片剧情！开头-发展-高潮-结局的叙事弧形，能让你的4K视频不只有美感，还有情感和深度。
+                    </p>
+                </div>
+                
+                <!-- 信息技术 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-violet-100 dark:bg-violet-900 flex items-center justify-center text-violet-500 dark:text-violet-400 mr-4">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3 class="text-xl font-bold">信息技术 → 理解数字视频</h3>
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-300">
+                        计算机课上学到的文件格式、存储原理，能帮你理解为什么4K文件这么大，以及如何高效管理和编辑这些大文件。知道比特率、像素等概念，对选择导出设置至关重要！
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 避坑指南 -->
+        <section id="pitfalls-guide" class="mb-16 section-fade-in">
+            <div class="flex items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <i class="fas fa-compass text-yellow-500 text-2xl mr-3"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">避坑指南针：过来人帮你绕开弯路！</h2>
+            </div>
+            
+            <p class="text-lg mb-8">探索4K视频的路上有不少坑，让我这个"老司机"帮你避开它们！</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 常见错误 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900 flex items-center justify-center text-red-500 dark:text-red-400 mr-3">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">最容易掉进去的"坑"</h3>
+                    </div>
+                    <ul class="space-y-4">
+                        <li>
+                            <p class="font-medium text-red-600 dark:text-red-400">一味追求设备而忽视基本功</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><strong>纠错小贴士:</strong> 手机4K也能拍大片！先把构图、光线、稳定性这些基本功练好，比盲目追求更贵的设备重要得多。</p>
+                        </li>
+                        <li>
+                            <p class="font-medium text-red-600 dark:text-red-400">过度使用特效和转场</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><strong>纠错小贴士:</strong> 初学者常被花哨的特效吸引，但专业作品往往用最简单的切换。内容为王，特效为辅！</p>
+                        </li>
+                        <li>
+                            <p class="font-medium text-red-600 dark:text-red-400">不注重音频质量</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><strong>纠错小贴士:</strong> 再美的画面配上杂音或糟糕的音质，观众体验也会大打折扣。拍摄时注意环境音，后期考虑添加合适的背景音乐。</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 易混淆概念 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900 flex items-center justify-center text-orange-500 dark:text-orange-400 mr-3">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">容易搞混的"岔路口"</h3>
+                    </div>
+                    <ul class="space-y-4">
+                        <li>
+                            <p class="font-medium text-orange-600 dark:text-orange-400">分辨率 vs 比特率</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">分辨率是画面包含的像素数量(如4K是3840×2160)，比特率是每秒传输的数据量。高分辨率配低比特率会导致画面模糊，两者都要注意！</p>
+                        </li>
+                        <li>
+                            <p class="font-medium text-orange-600 dark:text-orange-400">帧率 vs 快门速度</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">帧率是每秒显示的画面数(如24fps、30fps)，快门速度控制进光时间长短。帧率影响视频流畅度，快门速度影响运动模糊程度，两者作用不同！</p>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 坏习惯 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex items-center mb-4">
+                        <div class="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 mr-3">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <h3 class="text-lg font-bold">需要警惕的"绊脚石"</h3>
+                    </div>
+                    <ul class="space-y-3">
+                        <li>
+                            <p class="font-medium text-gray-600 dark:text-gray-400">不备份原始素材</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><strong>破解方法:</strong> 养成双重备份的好习惯，硬盘故障时你会感谢自己的未雨绸缪！</p>
+                        </li>
+                        <li>
+                            <p class="font-medium text-gray-600 dark:text-gray-400">边拍边看回放</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><strong>破解方法:</strong> 这会错过很多精彩瞬间，专注拍摄，回家再挑选最佳片段。</p>
+                        </li>
+                        <li>
+                            <p class="font-medium text-gray-600 dark:text-gray-400">随意删除"不好"的素材</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><strong>破解方法:</strong> 看似不好的素材，在后期可能有大用处！拍摄时宁多勿少，整理时再筛选。</p>
+                        </li>
+                        <li>
+                            <p class="font-medium text-gray-600 dark:text-gray-400">一次拍太久不休息</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-400"><strong>破解方法:</strong> 长时间拍摄容易疲劳，影响创意和质量，定时休息更有效率。</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 资源推荐 -->
+        <section id="resources" class="mb-16 section-fade-in">
+            <div class="flex items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+                <i class="fas fa-book text-primary-500 text-2xl mr-3"></i>
+                <h2 class="text-2xl md:text-3xl font-bold">藏宝图在此：安全又好用的资源推荐！</h2>
+            </div>
+            
+            <p class="text-lg mb-8">这里有一些我精心挑选的资源，能帮你学得更快、玩得更嗨：</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 学习平台 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-600 rounded-lg flex items-center justify-center text-white text-2xl mr-4">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-2">学习平台: Bilibili的摄影摄像教程区</h3>
+                            <p class="mb-2 text-gray-700 dark:text-gray-300">有大量免费中文4K摄影摄像教程，从入门到进阶应有尽有。</p>
+                            <div class="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg mt-2">
+                                <p class="text-sm text-yellow-800 dark:text-yellow-200 flex items-start">
+                                    <i class="fas fa-shield-alt mr-2 mt-0.5"></i>
+                                    <span><strong>安全提示：</strong>观看视频不需要登录，如需互动请在父母指导下注册，设置强密码并启用安全验证。</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <a href="https://www.bilibili.com/v/cinephile/photographyt" target="_blank" class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i>访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 剪辑软件 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-lg flex items-center justify-center text-white text-2xl mr-4">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-2">剪辑软件: 剪映专业版(免费)</h3>
+                            <p class="mb-2 text-gray-700 dark:text-gray-300">界面简洁，功能强大，适合初学者，支持4K编辑，上手容易。</p>
+                            <div class="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg mt-2">
+                                <p class="text-sm text-yellow-800 dark:text-yellow-200 flex items-start">
+                                    <i class="fas fa-shield-alt mr-2 mt-0.5"></i>
+                                    <span><strong>安全提示：</strong>下载官方版本，避免第三方捆绑软件。</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <a href="https://lv.ulikecam.com/" target="_blank" class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i>访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 进阶剪辑 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-lg flex items-center justify-center text-white text-2xl mr-4">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-2">进阶剪辑: DaVinci Resolve免费版</h3>
+                            <p class="mb-2 text-gray-700 dark:text-gray-300">专业级剪辑软件，完全免费，功能强大，适合成长期使用。</p>
+                            <div class="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg mt-2">
+                                <p class="text-sm text-yellow-800 dark:text-yellow-200 flex items-start">
+                                    <i class="fas fa-shield-alt mr-2 mt-0.5"></i>
+                                    <span><strong>安全提示：</strong>需要较高配置电脑，安装前请确认系统兼容性。</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <a href="https://www.blackmagicdesign.com/products/davinciresolve" target="_blank" class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i>访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 素材音乐 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-600 rounded-lg flex items-center justify-center text-white text-2xl mr-4">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-2">素材音乐: 魔音</h3>
+                            <p class="mb-2 text-gray-700 dark:text-gray-300">提供免版权音乐，适合视频配乐，支持免费下载。</p>
+                            <div class="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg mt-2">
+                                <p class="text-sm text-yellow-800 dark:text-yellow-200 flex items-start">
+                                    <i class="fas fa-shield-alt mr-2 mt-0.5"></i>
+                                    <span><strong>安全提示：</strong>仅下载标明"免费版权"的音乐，避免侵权风险。</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <a href="https://www.moyinapp.com/" target="_blank" class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i>访问网站
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- 创作社区 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 hover-card">
+                    <div class="flex">
+                        <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-red-400 to-pink-600 rounded-lg flex items-center justify-center text-white text-2xl mr-4">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold mb-2">创作社区: 小红书摄影板块</h3>
+                            <p class="mb-2 text-gray-700 dark:text-gray-300">可以找到很多创意灵感和拍摄技巧分享。</p>
+                            <div class="bg-yellow-50 dark:bg-yellow-900/30 p-3 rounded-lg mt-2">
+                                <p class="text-sm text-yellow-800 dark:text-yellow-200 flex items-start">
+                                    <i class="fas fa-shield-alt mr-2 mt-0.5"></i>
+                                    <span><strong>安全提示：</strong>浏览模式下使用，避免过度沉迷，注意保护个人信息。</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <a href="https://www.xiaohongshu.com/explore" target="_blank" class="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition flex items-center">
+                            <i class="fas fa-external-link-alt mr-2"></i>访问网站
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 结语 -->
+        <section class="mb-16 section-fade-in">
+            <div class="bg-gradient-to-r from-primary-100 to-primary-50 dark:from-primary-900 dark:to-primary-800 rounded-2xl shadow-lg p-8 text-center">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">向着星辰大海出发吧！未来的4K视觉魔法师！</h2>
+                <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
+                    看到你对4K视频这么有热情，真是太棒了！这趟旅程一定会充满发现和惊喜。记住，享受创作过程，大胆尝试，每一次按下录制键，每一次完成剪辑，都是你成长的足迹！
+                </p>
+                <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
+                    遇到困难别灰心，那是升级前的挑战！创作出新作品时，别忘了庆祝一下！收集你最满意的作品，建立自己的作品集，记录你的进步历程。
+                </p>
+                <p class="text-lg text-gray-700 dark:text-gray-300 font-bold">
+                    去创造属于你的视觉奇迹吧，未来的4K视觉魔法师！世界正等着被你的镜头重新诠释呢！✨
+                </p>
+                <div class="mt-8">
+                    <i class="fas fa-camera text-5xl text-primary-500 animate-pulse"></i>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="bg-gray-100 dark:bg-gray-800 py-8 border-t border-gray-200 dark:border-gray-700">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <p class="text-gray-700 dark:text-gray-300">作者姓名: Hardy.黄泓宾</p>
+                <p class="text-gray-600 dark:text-gray-400 text-sm">© 2025 版权所有</p>
+            </div>
+            <div class="flex space-x-4">
+                <a href="https://github.com/OtokoNoIzumi" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400">
+                    <i class="fab fa-github text-xl"></i>
+                </a>
+                <a href="https://space.bilibili.com/82205" target="_blank" class="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400">
+                    <i class="fab fa-bilibili text-xl"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.js"></script>
+    <script>
+        // 深色模式切换
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            }
+        }
+        
+        // 初始化主题
+        if (localStorage.getItem('color-theme') === 'dark' || 
+            (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+        
+        themeToggle.addEventListener('click', () => {
+            if (document.documentElement.classList.contains('dark')) {
+                setTheme('light');
+            } else {
+                setTheme('dark');
+            }
+        });
+        
+        // 滚动动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section-fade-in');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html> 

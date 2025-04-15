@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小鹏十三兴趣墙</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- 主题系统 -->
+    <link rel="stylesheet" href="theme.css">
+    <!-- 在head中早期加载JS -->
+    <script src="tailwind-classes.js" defer></script>
+    <script>
+        // 定制Tailwind配置
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: 'var(--color-primary-50)',
+                            100: 'var(--color-primary-100)',
+                            200: 'var(--color-primary-200)',
+                            300: 'var(--color-primary-300)',
+                            400: 'var(--color-primary-400)',
+                            500: 'var(--color-primary-500)', // 主橘色
+                            600: 'var(--color-primary-600)',
+                            700: 'var(--color-primary-700)',
+                            800: 'var(--color-primary-800)',
+                            900: 'var(--color-primary-900)',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.5s ease-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* 自定义动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .animate-slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-primary-50 to-white dark:from-gray-900 dark:to-gray-800 min-h-screen transition-colors duration-300">
+    <!-- 顶部导航栏 -->
+    <header class="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm theme-border-b">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-user text-primary-500 text-2xl"></i>
+                <h1 class="text-xl font-bold text-gray-800 dark:text-white">兴趣墙</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- 主题切换按钮 -->
+                <div class="flex items-center">
+                    <button id="theme-toggle" class="p-2 rounded-lg text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white theme-btn">
+                        <svg class="w-5 h-5 moon-icon" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg class="w-5 h-5 sun-icon hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                    <!-- 主题选择器 -->
+                    <select id="custom-theme-selector" class="ml-2 text-xs p-1 rounded bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-gray-600 theme-btn">
+                        <option value="theme-default">默认主题</option>
+                        <option value="theme-macaron">马卡龙主题</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主横幅 -->
+    <section class="relative theme-banner py-16 md:py-24">
+        <div class="absolute inset-0 bg-cover bg-center opacity-20" style="background-image: url('image/download.png');"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 animate-fade-in">小鹏十三兴趣作品展示平台</h1>
+                <p class="text-xl md:text-2xl opacity-90 mb-8 animate-slide-up">
+                    <i class="fas fa-quote-left text-sm align-super mr-2 opacity-70"></i>
+                    欢迎浏览小朋友们的兴趣探索和创意作品
+                    <i class="fas fa-quote-right text-sm align-super ml-2 opacity-70"></i>
+                </p>
+                <div class="flex justify-center space-x-4 animate-slide-up" style="animation-delay: 0.2s;">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full bg-white/20 text-sm">
+                        <i class="fas fa-child mr-2"></i>
+                        创意与探索
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页面主体内容容器 -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- 导航卡片区域 -->
+        <section class="mb-16 animate-on-scroll">
+            <h2 class="theme-section-title text-3xl font-bold mb-8">
+                <i class="fas fa-th-large"></i>
+                小朋友作品集
+                <span class="ml-3 text-sm font-normal text-primary-500 bg-primary-50 dark:bg-primary-900/30 px-2 py-1 rounded-full">请选择要查看的作品</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Hardy.黄泓宾作品卡片 -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/Hardy.黄泓宾/网页.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/image (1).png" alt="4K视频探索" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">4K视频探索</h3>
+                                    <p class="text-sm opacity-80 mt-2">黄泓宾的创作之旅</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    黄泓宾
+                                </span>
+                                <span class="theme-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                    <i class="fas fa-video mr-1"></i>
+                                    视频制作
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                探索4K视频的奇妙世界，了解高清视频制作的核心技巧和秘籍。
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 刘桐赫作品卡片 - Phigros -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/刘桐赫/phigros_mastery.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/2932508-20220825003318292-976153632.png" alt="Phigros制霸指南" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">Phigros制霸指南</h3>
+                                    <p class="text-sm opacity-80 mt-2">从入门到大师的音游之旅</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    刘桐赫
+                                </span>
+                                <span class="theme-badge bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200">
+                                    <i class="fas fa-gamepad mr-1"></i>
+                                    音乐游戏
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                刘桐赫的Phigros音游成长规划，帮助你掌握游戏技巧，提升分数。
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 刘桐赫作品卡片 - 数学探索 -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/刘桐赫/math_exploration_web.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/download.png" alt="数学探索之旅" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">数学探索之旅</h3>
+                                    <p class="text-sm opacity-80 mt-2">从兴趣到卓越的成长规划</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    刘桐赫
+                                </span>
+                                <span class="theme-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                    <i class="fas fa-calculator mr-1"></i>
+                                    数学学习
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                为七年级学生量身定制的数学学习规划，帮助探索初高中数学的奥秘。
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- C宝作品卡片 -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/C宝/capybara_website.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/卡皮巴拉111.jpg" alt="卡皮巴拉探索之旅" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">卡皮巴拉探索之旅</h3>
+                                    <p class="text-sm opacity-80 mt-2">C宝的动物王国冒险指南</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    C宝
+                                </span>
+                                <span class="theme-badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                    <i class="fas fa-paw mr-1"></i>
+                                    动物探索
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                C宝的卡皮巴拉探索指南，带你认识这种可爱的"水豚先生"。
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 谢林希作品卡片 -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/谢林希/interest_prompt_dogs.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/image1.png" alt="狗狗世界探险指南" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">狗狗世界探险指南</h3>
+                                    <p class="text-sm opacity-80 mt-2">谢林希的兴趣探索</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    谢林希
+                                </span>
+                                <span class="theme-badge bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                                    <i class="fas fa-dog mr-1"></i>
+                                    宠物爱好
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                依依的狗狗探索指南，分享她对可爱毛茸茸伙伴的热爱。
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 汤斯颖作品卡片 -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/汤斯颖/漫画探索指南.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/image.webp" alt="漫画探索指南" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">漫画创作探索指南</h3>
+                                    <p class="text-sm opacity-80 mt-2">成为漫画创意大师的旅程</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    汤斯颖
+                                </span>
+                                <span class="theme-badge bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">
+                                    <i class="fas fa-paint-brush mr-1"></i>
+                                    漫画创作
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                汤斯颖的漫画创作指南，开启创意与表达的无限可能。
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 哈丽作品卡片 - 敖闰兴趣指南 -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/哈丽/哈丽_敖闰兴趣指南.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/哪吒之魔童闹海敖闰-水墨海报-5K手机壁纸-scaled.webp" alt="敖闰兴趣指南" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">敖闰探索之旅</h3>
+                                    <p class="text-sm opacity-80 mt-2">神秘龙族的古老传说</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    哈丽
+                                </span>
+                                <span class="theme-badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                    <i class="fas fa-dragon mr-1"></i>
+                                    神话传说
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                哈丽的敖闰神话探索，带你了解中国古代神话中的龙族世界。
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 哈丽作品卡片 - 英语探险之旅 -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/哈丽/english_web.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/ChatGPT Image 2025年4月6日 23_25_24.png" alt="英语探险之旅" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">英语探险之旅</h3>
+                                    <p class="text-sm opacity-80 mt-2">哈丽的英语学习指南</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    哈丽
+                                </span>
+                                <span class="theme-badge bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                                    <i class="fas fa-language mr-1"></i>
+                                    英语学习
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                哈丽的英语学习指南，分享有趣的英语学习方法和小技巧。
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 汤沐森作品卡片 -->
+                <div class="theme-card overflow-hidden transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+                    <a href="profile/汤沐森/chinese_painting_website.html" class="block">
+                        <div class="relative h-64 overflow-hidden">
+                            <img src="image/paint.png" alt="汤沐森的国画探索指南" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
+                                <div class="p-6 text-white">
+                                    <h3 class="text-2xl font-bold">国画探索指南</h3>
+                                    <p class="text-sm opacity-80 mt-2">汤沐森的丹青之路</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <span class="theme-badge">
+                                    <i class="fas fa-user mr-1"></i>
+                                    汤沐森
+                                </span>
+                                <span class="theme-badge bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                    <i class="fas fa-paint-brush mr-1"></i>
+                                    国画艺术
+                                </span>
+                            </div>
+                            <p class="text-gray-700 dark:text-gray-300">
+                                探索中国传统国画的奥秘，学习笔墨技法与艺术精髓，踏上丹青之路！
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 备注区域 -->
+        <section class="mb-16 animate-on-scroll">
+            <div class="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 text-center">
+                <h3 class="text-xl font-bold mb-4">小朋友创意作品展示平台</h3>
+                <p class="text-gray-600 dark:text-gray-400">这是一个展示小朋友们才华和创意的平台，收集了他们在各个领域的兴趣探索和学习成果。每个作品都代表了小朋友们独特的视角和热情。</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-50 dark:bg-gray-900 theme-border-t py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white flex items-center">
+                        <i class="fas fa-user text-primary-500 mr-2"></i>
+                        个人作品集
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 mt-2">© 2025 个人展示网站</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 移动端菜单
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+
+        // 滚动动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(item => {
+                observer.observe(item);
+            });
+        });
+    </script>
+
+    <!-- 主题切换器脚本 -->
+    <script src="theme-switcher.js"></script>
+</body>
+</html>
