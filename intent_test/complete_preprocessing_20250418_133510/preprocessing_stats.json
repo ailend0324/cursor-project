@@ -1,9 +1,3 @@
-{
-  "timestamp": "20250418_133510",
-  "total_dialogs": 4503,
-  "total_messages": 101356,
-  "avg_dialog_length": 22.508549855651786,
-  "min_dialog_length": 4,
-  "max_dialog_length": 187,
-  "user_messages_ratio": 0.4298018864201429
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:56a6b62bec77d6251bb2f31992b2df14d8c9c1a0ff6aae3957c8cccbb91978c7
+size 231
