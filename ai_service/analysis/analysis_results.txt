@@ -1,0 +1,124 @@
+=== Basic Data Information ===
+Data shape: 748593 rows, 12 columns
+Columns: touch_id, user_name, user_start_time, user_end_time, servicer_name, new_feedback_name, create_time, group_name, send_time, sender_type, send_content, seq_no
+Non-null counts:
+  - touch_id: 748593
+  - user_name: 748593
+  - user_start_time: 748593
+  - user_end_time: 748591
+  - servicer_name: 739967
+  - new_feedback_name: 187964
+  - create_time: 748593
+  - group_name: 748593
+  - send_time: 743352
+  - sender_type: 743352
+  - send_content: 743350
+  - seq_no: 743352
+
+=== Conversation Statistics ===
+Total conversation count: 45918
+Earliest conversation: 2025-01-05 09:00:02
+Latest conversation: 2025-04-05 21:01:18
+Time span: 90 days and 12 hours
+
+=== Sender Type Statistics ===
+Sender type 2.0: 376553 messages
+Sender type 1.0: 341497 messages
+Sender type 4.0: 25302 messages
+
+=== User Questions Analysis ===
+=== 问题分析 ===
+
+Top 10 User Questions:
+1. "好的" - 8404 occurrences
+2. "你好" - 4042 occurrences
+3. "好" - 3803 occurrences
+4. "是的" - 3689 occurrences
+5. "人工" - 3525 occurrences
+6. "？" - 3004 occurrences
+7. "对" - 2608 occurrences
+8. "人工客服" - 2144 occurrences
+9. "我要继续咨询" - 1918 occurrences
+10. "嗯" - 1760 occurrences
+
+Question Categories:
+其他类: 302047 (88.45%)
+服务支持类: 25211 (7.38%)
+产品咨询类: 11812 (3.46%)
+技术问题类: 1921 (0.56%)
+业务咨询类: 506 (0.15%)
+Error generating word cloud: cannot open resource
+
+=== Conversation Pattern Analysis ===
+=== 对话模式分析 ===
+Average dialogue turns per conversation: 16.30
+Longest conversation: 333 turns
+Shortest conversation: 1 turns
+
+Conversation turns distribution chart saved to /Users/boxie/cursor/ai_service/analysis/visualizations/conversation_turns_distribution.png
+
+=== Conversation Duration Analysis ===
+=== 对话时长分析 ===
+Successfully processed 748591 conversations with valid timestamps.
+Filtered out 45 conversations (0.01%) with invalid durations.
+Average conversation duration: 12.85 minutes
+Longest conversation: 115.65 minutes
+Shortest conversation: 0.00 minutes
+
+Conversation Duration Distribution:
+<1min: 1895 (0.25%)
+1-3min: 15751 (2.10%)
+3-5min: 49479 (6.61%)
+5-10min: 291442 (38.93%)
+10-15min: 184192 (24.61%)
+15-30min: 170987 (22.84%)
+30-60min: 31520 (4.21%)
+1-2hrs: 3277 (0.44%)
+
+Conversation duration distribution chart saved to /Users/boxie/cursor/ai_service/analysis/visualizations/conversation_duration_distribution.png
+
+Correlation between conversation duration and dialogue turns: 0.47
+
+=== Human Transfer Analysis ===
+=== 转人工场景分析 ===
+Total human transfer requests: 11633 (3.41% of user messages)
+Conversations with transfer requests: 6227 (15.85% of all conversations)
+Average turn when transfer is requested: 7.09
+
+Transfer Request Distribution by Turn:
+First msg: 2273 (36.50%)
+Turn 2: 1046 (16.80%)
+Turn 3: 553 (8.88%)
+Turns 4-5: 549 (8.82%)
+Turns 6-10: 611 (9.81%)
+Turns 11-20: 591 (9.49%)
+20+ turns: 595 (9.56%)
+
+Transfer request distribution chart saved to /Users/boxie/cursor/ai_service/analysis/visualizations/transfer_request_distribution.png
+
+=== Template Usage Analysis ===
+=== Template Usage Analysis ===
+Successfully loaded 3 templates from /Users/boxie/cursor/ai_service/knowledge_base/answer_templates.json
+
+Template usage rate: 0.00% (0 of 376553 bot messages)
+No template matches found in bot messages.
+
+=== FAQ Topic Analysis ===
+=== FAQ Topic Analysis ===
+Successfully loaded 15 FAQs from /Users/boxie/cursor/ai_service/knowledge_base/faq.json
+FAQ matching rate: 31.31% (106933 of 341497 user messages)
+
+Common FAQ categories in user questions:
+1. 回收流程: 34451 matches (24.72%)
+2. 人工服务: 24180 matches (17.35%)
+3. 价格咨询: 23952 matches (17.19%)
+4. 订单跟踪: 20385 matches (14.63%)
+5. 退回/取消: 16154 matches (11.59%)
+6. 第三方平台: 11143 matches (8.00%)
+7. 设备状况: 4487 matches (3.22%)
+8. 投诉处理: 2632 matches (1.89%)
+9. 质量争议: 1488 matches (1.07%)
+10. 数据安全: 497 matches (0.36%)
+
+FAQ category word cloud saved to /Users/boxie/cursor/ai_service/analysis/visualizations/faq_categories_wordcloud.png
+

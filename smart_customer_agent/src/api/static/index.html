@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能客服系统演示</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .chat-header {
+            background-color: #009688;
+            color: white;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .chat-messages {
+            height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            clear: both;
+        }
+        
+        .message-user {
+            float: right;
+            background-color: #dcf8c6;
+            border-radius: 15px 15px 0 15px;
+            padding: 10px 15px;
+        }
+        
+        .message-assistant {
+            float: left;
+            background-color: white;
+            border-radius: 15px 15px 15px 0;
+            padding: 10px 15px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .message-system {
+            clear: both;
+            text-align: center;
+            margin: 15px 0;
+            color: #777;
+            font-size: 0.9em;
+        }
+        
+        .chat-input {
+            padding: 15px;
+            background-color: white;
+            border-top: 1px solid #ddd;
+        }
+        
+        .typing-indicator {
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: none;
+        }
+        
+        .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #b6b6b6;
+            margin-right: 3px;
+            animation: typing 1.4s infinite;
+        }
+        
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+        
+        .business-group-selector {
+            margin-bottom: 15px;
+        }
+        
+        .intent-badge {
+            font-size: 0.75em;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .confidence-indicator {
+            margin-top: 5px;
+            font-size: 0.7em;
+            color: #777;
+        }
+        
+        /* 清除浮动 */
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+    <div class="container my-4">
+        <div class="chat-container">
+            <div class="chat-header">
+                <h4 class="mb-0">智能客服系统演示</h4>
+                <div class="business-group-selector mt-2">
+                    <select id="business-group" class="form-select form-select-sm">
+                        <option value="回收宝验货宝技能组">回收宝验货宝技能组</option>
+                        <option value="邮寄回收-回收宝">邮寄回收-回收宝</option>
+                        <option value="上门&到店回收-回收宝">上门&到店回收-回收宝</option>
+                        <option value="邮寄帮卖及鱼市-回收宝">邮寄帮卖及鱼市-回收宝</option>
+                        <option value="回收宝黄金回收技能组">回收宝黄金回收技能组</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chat-messages">
+                <div class="message-system">
+                    智能客服已准备就绪，请输入您的问题
+                </div>
+            </div>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            
+            <div class="chat-input">
+                <form id="chat-form">
+                    <div class="input-group">
+                        <input type="text" id="user-message" class="form-control" placeholder="请输入您的问题..." autocomplete="off">
+                        <button type="submit" class="btn btn-primary">发送</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="mb-0">系统信息</h5>
+            </div>
+            <div class="card-body">
+                <div id="system-info">
+                    <p><strong>对话ID:</strong> <span id="conversation-id">新会话</span></p>
+                    <p><strong>系统状态:</strong> <span id="system-status">就绪</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 全局变量
+        let conversationId = null;
+        const messages = [];
+        
+        // DOM 元素
+        const chatMessages = document.getElementById('chat-messages');
+        const chatForm = document.getElementById('chat-form');
+        const userMessage = document.getElementById('user-message');
+        const businessGroup = document.getElementById('business-group');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const conversationIdElement = document.getElementById('conversation-id');
+        const systemStatus = document.getElementById('system-status');
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 添加欢迎消息
+            addMessage({
+                role: 'assistant',
+                content: `您好，我是${businessGroup.value}的智能客服助手，有什么可以帮您?`
+            });
+            
+            // 加载业务组
+            // fetchBusinessGroups();
+        });
+        
+        // 表单提交
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const message = userMessage.value.trim();
+            if (!message) return;
+            
+            // 添加用户消息
+            addMessage({
+                role: 'user',
+                content: message
+            });
+            
+            // 清空输入框
+            userMessage.value = '';
+            
+            // 显示输入指示器
+            typingIndicator.style.display = 'block';
+            
+            try {
+                // 获取响应
+                const response = await sendMessage(message);
+                
+                // 添加助手响应
+                addMessage({
+                    role: 'assistant',
+                    content: response.answer,
+                    metadata: {
+                        intent: response.intent,
+                        confidence: response.confidence,
+                        needs_human: response.needs_human
+                    }
+                });
+                
+                // 更新对话ID
+                conversationId = response.conversation_id;
+                conversationIdElement.textContent = conversationId;
+                
+                // 如果需要人工干预
+                if (response.needs_human) {
+                    systemStatus.textContent = '建议转人工';
+                    systemStatus.className = 'text-warning';
+                    
+                    addMessage({
+                        role: 'system',
+                        content: '当前问题建议转人工客服处理'
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                
+                // 添加错误消息
+                addMessage({
+                    role: 'system',
+                    content: '抱歉，服务出现了问题，请稍后再试'
+                });
+                
+                systemStatus.textContent = '错误';
+                systemStatus.className = 'text-danger';
+            } finally {
+                // 隐藏输入指示器
+                typingIndicator.style.display = 'none';
+            }
+        });
+        
+        // 添加消息到聊天界面
+        function addMessage(message) {
+            messages.push(message);
+            
+            const messageElement = document.createElement('div');
+            messageElement.className = `message message-${message.role} clearfix`;
+            
+            let content = message.content;
+            
+            // 添加意图标签和置信度（如果有）
+            if (message.metadata) {
+                const { intent, confidence } = message.metadata;
+                
+                if (intent) {
+                    content += `<span class="badge bg-info intent-badge">${intent}</span>`;
+                }
+                
+                if (confidence !== undefined) {
+                    const confidencePercentage = Math.round(confidence * 100);
+                    const confidenceClass = confidencePercentage >= 85 ? 'text-success' : 
+                                           confidencePercentage >= 70 ? 'text-warning' : 'text-danger';
+                    
+                    content += `<div class="confidence-indicator">
+                                   <small class="${confidenceClass}">置信度: ${confidencePercentage}%</small>
+                               </div>`;
+                }
+            }
+            
+            messageElement.innerHTML = content;
+            chatMessages.appendChild(messageElement);
+            
+            // 滚动到底部
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // 发送消息到服务器
+        async function sendMessage(message) {
+            const url = '/api/chat';
+            
+            const data = {
+                conversation_id: conversationId,
+                business_group: businessGroup.value,
+                message: message,
+                prev_messages: messages.filter(m => m.role !== 'system').map(m => ({
+                    role: m.role,
+                    content: m.content
+                })).slice(-5) // 仅保留最后5条消息作为上下文
+            };
+            
+            // 这里模拟API调用，实际应用中应该发送真实请求
+            // return fetch(url, {
+            //     method: 'POST',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(data)
+            // }).then(response => response.json());
+            
+            // 模拟API响应
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    const intent = getIntent(message);
+                    
+                    const answers = {
+                        "订单查询": "您好，要查询订单状态，请提供您的订单号，我会立即为您查询。如果没有订单号，也可以提供下单时使用的手机号码。",
+                        "价格咨询": "您好，回收价格会根据设备型号、成色和市场行情决定。我们承诺给出合理的市场价格，您可以在我们的平台预估价格，也可以告诉我具体设备型号，我来为您查询最新回收价。",
+                        "流程咨询": "您好，回收流程很简单：1)在平台选择设备并填写信息获取预估价；2)选择回收方式(上门/邮寄/到店)；3)我们验收设备并确认价格；4)您确认后我们立即打款。整个过程快速安全。",
+                        "物流查询": "您好，我们合作的物流是顺丰快递，手机和平板等小件设备运费上限为25元，电脑和显示屏为40元，您可以选择顺丰到付。收件后我们会尽快为您验货并确认回收。",
+                        "产品信息": "您好，我们回收各类电子产品，包括手机、平板、电脑、智能手表等。不同产品的回收要求可能不同，请问您想了解哪类产品的具体信息？",
+                        "投诉反馈": "您好，非常抱歉给您带来不便。请详细描述您遇到的问题，提供相关订单号，我会立即为您反馈给专门的客服团队，并尽快给您答复。",
+                        "问候闲聊": "您好，欢迎咨询回收宝服务，我是您的专属客服助手，很高兴为您服务。请问有什么可以帮到您的呢？",
+                        "其他咨询": "您好，感谢您的咨询。请问您具体想了解关于我们回收服务的哪方面信息呢？我会尽力为您解答。"
+                    };
+                    
+                    const answer = answers[intent] || "非常抱歉，我理解您的问题是关于我们的回收业务，但需要更多信息才能给您精确的答案。您能提供更多细节吗？";
+                    const confidence = intent !== "其他咨询" ? Math.random() * 0.2 + 0.8 : Math.random() * 0.3 + 0.5;
+                    const needs_human = confidence < 0.7;
+                    
+                    resolve({
+                        conversation_id: conversationId || crypto.randomUUID(),
+                        answer: answer,
+                        intent: intent,
+                        confidence: confidence,
+                        needs_human: needs_human
+                    });
+                }, 1000);
+            });
+        }
+        
+        // 获取意图（简化版，实际应用中应使用服务器端分类）
+        function getIntent(question) {
+            question = question.toLowerCase();
+            
+            if (/订单|单号/.test(question)) return "订单查询";
+            if (/多少钱|价格|价值|回收价/.test(question)) return "价格咨询";
+            if (/怎么|如何|流程|步骤/.test(question)) return "流程咨询";
+            if (/物流|快递|运费|邮费|顺丰|寄/.test(question)) return "物流查询";
+            if (/手机|设备|产品|型号/.test(question)) return "产品信息";
+            if (/投诉|不满|差评|退款|不好/.test(question)) return "投诉反馈";
+            if (/你好|您好|在吗|请问/.test(question)) return "问候闲聊";
+            
+            return "其他咨询";
+        }
+        
+        // 获取业务组
+        async function fetchBusinessGroups() {
+            try {
+                const response = await fetch('/api/business-groups');
+                const data = await response.json();
+                
+                // 清空选择器
+                businessGroup.innerHTML = '';
+                
+                // 添加业务组选项
+                data.business_groups.forEach(group => {
+                    const option = document.createElement('option');
+                    option.value = group;
+                    option.textContent = group;
+                    businessGroup.appendChild(option);
+                });
+            } catch (error) {
+                console.error('获取业务组失败:', error);
+            }
+        }
+    </script>
+</body>
+</html> 

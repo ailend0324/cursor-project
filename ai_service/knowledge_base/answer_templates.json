@@ -1,0 +1,22 @@
+{
+  "templates": [
+    {
+      "id": 1,
+      "category": "欢迎语",
+      "template": "您好，我是智能助手，很高兴为您服务",
+      "usage_scenario": "对话开始"
+    },
+    {
+      "id": 2,
+      "category": "告别语",
+      "template": "感谢您的咨询，祝您生活愉快",
+      "usage_scenario": "对话结束"
+    },
+    {
+      "id": 3,
+      "category": "转人工",
+      "template": "我将为您转接人工客服",
+      "usage_scenario": "用户需要人工支持"
+    }
+  ]
+} 
