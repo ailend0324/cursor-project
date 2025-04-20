@@ -1,0 +1,9 @@
+# 要删除的关键字段为空时，整行丢弃
+drop_if_null:
+  - send_content      # 可以按需再加字段
+
+# 对缺失值的填充值
+fillna:
+  servicer_name: "未知客服"
+  new_feedback_name: "无反馈"
+  group_name: "未知分组"

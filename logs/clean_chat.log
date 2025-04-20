@@ -16,3 +16,4 @@
 2025-04-20 21:35:29,514 - INFO - Load raw file: data/raw/sample_5000.xlsx
 2025-04-20 21:35:30,476 - INFO - Saved cleaned file: data/cleaned/sample_5000_cleaned_20250420T213529.xlsx
 2025-04-20 21:35:30,477 - INFO - Saved report: reports/sample_5000_report_20250420T213529.md
+2025-04-20 21:35:30,531 - INFO - 已 git commit: clean sample_5000.xlsx 20250420T213529
