@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # VPN监控脚本
-VPN_IPS=("207.204.224.*" "192.200.144.*" "216.169.131.*")  # 允许的VPN IP地址列表
+VPN_IPS=("207.204.224.*" "192.200.144.*" "216.169.131.*" "173.255.168.*")  # 允许的VPN IP地址列表
 CHECK_INTERVAL=20                    # 检查间隔（秒）
 LOG_FILE="/Users/boxie/cursor/vpn_monitor.log"  # 日志文件
 
