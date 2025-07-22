@@ -1,0 +1,59 @@
+[2025-05-29 13:14:04] ========== VPN深度修复脚本启动 ==========
+[2025-05-29 13:14:04] 第一步：强制停止所有StrongVPN进程
+[2025-05-29 13:14:04] 发现StrongVPN进程: 88555
+89782
+89785
+[2025-05-29 13:16:51] 已强制终止StrongVPN进程
+[2025-05-29 13:16:51] VPN进程强制清理完成
+[2025-05-29 13:16:51] 第二步：深度清理PID文件
+[2025-05-29 13:16:51] 搜索路径: /tmp
+[2025-05-29 13:16:51] 搜索路径: /var/run
+[2025-05-29 13:16:51] 搜索路径: /Library/Application Support/StrongVPN
+[2025-05-29 13:16:51] 搜索路径: /Library/Application Support/com.strongvpn.StrongVPN2-Helper
+[2025-05-29 13:16:51] 搜索路径: /Users/boxie/Library/Application Support/com.strongvpn.StrongVPN2-Client
+[2025-05-29 13:16:51] PID文件深度清理完成
+[2025-05-29 13:16:51] 第三步：清理StrongVPN配置和缓存
+[2025-05-29 13:16:51] 备份并清理: /Users/boxie/Library/Application Support/com.strongvpn.StrongVPN2-Client
+[2025-05-29 13:16:51] 已备份到: /Users/boxie/Library/Application Support/com.strongvpn.StrongVPN2-Client.backup.20250529_131651
+[2025-05-29 13:16:51] 备份并清理: /Users/boxie/Library/Caches/com.strongvpn.StrongVPN2-Client
+[2025-05-29 13:16:51] 备份并清理: /Users/boxie/Library/Preferences/com.strongvpn.StrongVPN2-Client.plist
+[2025-05-29 13:16:51] 已备份到: /Users/boxie/Library/Preferences/com.strongvpn.StrongVPN2-Client.plist.backup.20250529_131651
+[2025-05-29 13:16:51] 备份并清理: /Library/Application Support/com.strongvpn.StrongVPN2-Helper
+[2025-05-29 13:16:51] StrongVPN配置清理完成
+[2025-05-29 13:16:51] 第四步：彻底重置网络配置
+[2025-05-29 13:16:51] 清理路由表
+[2025-05-29 13:16:51] 重新配置WiFi服务: Wi-Fi
+[2025-05-29 13:16:51] 网络配置重置完成
+[2025-05-29 13:16:51] 第五步：彻底重置DNS
+[2025-05-29 13:16:51] 重置了DNS设置
+[2025-05-29 13:16:51] DNS彻底重置完成
+[2025-05-29 13:16:51] 第六步：清理VPN系统扩展
+[2025-05-29 13:16:51] 发现系统扩展: /Library/SystemExtensions/96BF1100-C5F3-4AFC-9DD4-9D2BA2AB7FF2/com.strongvpn.StrongVPN2-Client.network-extension.systemextension
+/Library/SystemExtensions/96BF1100-C5F3-4AFC-9DD4-9D2BA2AB7FF2/com.strongvpn.StrongVPN2-Client.network-extension.systemextension/Contents/MacOS/com.strongvpn.StrongVPN2-Client.network-extension
+[2025-05-29 13:16:51] 系统扩展检查完成
+[2025-05-29 13:16:51] 等待系统稳定
+[2025-05-29 13:17:04] 网络连接测试失败，但这是正常的
+[2025-05-29 13:17:04] ========== VPN深度修复脚本完成 ==========
+[2025-05-30 15:48:33] ========== VPN深度修复脚本启动 ==========
+[2025-05-30 15:48:33] 第一步：强制停止所有StrongVPN进程
+[2025-05-30 15:48:33] VPN进程强制清理完成
+[2025-05-30 15:48:33] 第二步：深度清理PID文件
+[2025-05-30 15:48:33] 搜索路径: /tmp
+[2025-05-30 15:48:33] 搜索路径: /var/run
+[2025-05-30 15:48:33] 搜索路径: /Library/Application Support/com.strongvpn.StrongVPN2-Helper
+[2025-05-30 15:48:33] PID文件深度清理完成
+[2025-05-30 15:48:33] 第三步：清理StrongVPN配置和缓存
+[2025-05-30 15:48:33] 备份并清理: /Library/Application Support/com.strongvpn.StrongVPN2-Helper
+[2025-05-30 15:48:33] StrongVPN配置清理完成
+[2025-05-30 15:48:33] 第四步：彻底重置网络配置
+[2025-05-30 15:48:33] 清理路由表
+[2025-05-30 15:48:34] 重新配置WiFi服务: Wi-Fi
+[2025-05-30 15:48:34] 网络配置重置完成
+[2025-05-30 15:48:34] 第五步：彻底重置DNS
+[2025-05-30 15:48:34] 重置了DNS设置
+[2025-05-30 15:48:34] DNS彻底重置完成
+[2025-05-30 15:48:34] 第六步：清理VPN系统扩展
+[2025-05-30 15:48:34] 系统扩展检查完成
+[2025-05-30 15:48:34] 等待系统稳定
+[2025-05-30 15:48:47] 网络连接测试失败，但这是正常的
+[2025-05-30 15:48:47] ========== VPN深度修复脚本完成 ==========

@@ -1,0 +1,72 @@
+[2025-05-29 13:30:24] ========== StrongVPN完全清理检查开始 ==========
+[2025-05-29 13:30:24] 第一部分：检查应用程序文件
+[2025-05-29 13:30:24] 第二部分：检查用户配置文件
+[2025-05-29 13:30:24] 第三部分：检查系统级文件
+[2025-05-29 13:30:24] 发现残留文件: /Library/LaunchDaemons/com.strongvpn.StrongVPN2-Helper.plist (系统级配置文件)
+[2025-05-29 13:30:33] 已删除: /Library/LaunchDaemons/com.strongvpn.StrongVPN2-Helper.plist
+[2025-05-29 13:30:33] 发现残留文件: /Library/PrivilegedHelperTools/com.strongvpn.StrongVPN2-Helper (系统级配置文件)
+[2025-05-29 13:30:38] 已删除: /Library/PrivilegedHelperTools/com.strongvpn.StrongVPN2-Helper
+[2025-05-29 13:30:38] 第四部分：检查系统扩展
+[2025-05-29 13:30:38] 发现系统扩展: /Library/SystemExtensions/96BF1100-C5F3-4AFC-9DD4-9D2BA2AB7FF2/com.strongvpn.StrongVPN2-Client.network-extension.systemextension
+/Library/SystemExtensions/96BF1100-C5F3-4AFC-9DD4-9D2BA2AB7FF2/com.strongvpn.StrongVPN2-Client.network-extension.systemextension/Contents/MacOS/com.strongvpn.StrongVPN2-Client.network-extension
+[2025-05-29 13:30:38] 系统扩展需要重启后清理
+[2025-05-29 13:30:38] 第五部分：检查临时文件和PID文件
+[2025-05-29 13:30:38] 第六部分：检查残留进程
+[2025-05-29 13:30:38] 未发现残留进程
+[2025-05-29 13:30:38] 第七部分：检查网络配置残留
+[2025-05-29 13:30:38] 未发现VPN网络接口
+[2025-05-29 13:30:38] 第八部分：全局搜索残留文件
+[2025-05-29 13:31:35] 用户目录搜索结果: /Users/boxie/Library/HTTPStorages/com.strongvpn.StrongVPN2-Client
+/Users/boxie/Library/HTTPStorages/com.strongvpn.StrongVPN2-Client.binarycookies
+/Users/boxie/Library/Caches/com.plausiblelabs.crashreporter.data/com.strongvpn.StrongVPN2-Client
+/Users/boxie/Downloads/StrongVPN.dmg
+[2025-05-29 13:31:45] 发现残留文件: /Users/boxie/Library/HTTPStorages/com.strongvpn.StrongVPN2-Client (全局搜索发现的文件)
+[2025-05-29 13:31:45] 用户跳过删除: /Users/boxie/Library/HTTPStorages/com.strongvpn.StrongVPN2-Client
+[2025-05-29 13:31:45] 发现残留文件: /Users/boxie/Library/Caches/com.plausiblelabs.crashreporter.data/com.strongvpn.StrongVPN2-Client (全局搜索发现的文件)
+[2025-05-29 13:31:45] 用户跳过删除: /Users/boxie/Library/Caches/com.plausiblelabs.crashreporter.data/com.strongvpn.StrongVPN2-Client
+[2025-05-29 13:31:45] 清理检查完成：还有 2 个文件未清理
+[2025-05-29 13:31:45] ========== StrongVPN完全清理检查完成 ==========
+[2025-05-29 13:32:09] ========== StrongVPN完全清理检查开始 ==========
+[2025-05-29 13:32:09] 第一部分：检查应用程序文件
+[2025-05-29 13:32:09] 第二部分：检查用户配置文件
+[2025-05-29 13:32:09] 第三部分：检查系统级文件
+[2025-05-29 13:32:09] 第四部分：检查系统扩展
+[2025-05-29 13:32:09] 发现系统扩展: /Library/SystemExtensions/96BF1100-C5F3-4AFC-9DD4-9D2BA2AB7FF2/com.strongvpn.StrongVPN2-Client.network-extension.systemextension
+/Library/SystemExtensions/96BF1100-C5F3-4AFC-9DD4-9D2BA2AB7FF2/com.strongvpn.StrongVPN2-Client.network-extension.systemextension/Contents/MacOS/com.strongvpn.StrongVPN2-Client.network-extension
+[2025-05-29 13:32:09] 系统扩展需要重启后清理
+[2025-05-29 13:32:09] 第五部分：检查临时文件和PID文件
+[2025-05-29 13:32:09] 第六部分：检查残留进程
+[2025-05-29 13:32:09] 未发现残留进程
+[2025-05-29 13:32:09] 第七部分：检查网络配置残留
+[2025-05-29 13:32:09] 未发现VPN网络接口
+[2025-05-29 13:32:09] 第八部分：全局搜索残留文件
+[2025-05-29 13:32:51] 清理检查完成：还有 2 个文件未清理
+[2025-05-29 13:32:51] ========== StrongVPN完全清理检查完成 ==========
+[2025-05-29 13:39:58] ========== StrongVPN完全清理检查开始 ==========
+[2025-05-29 13:39:58] 第一部分：检查应用程序文件
+[2025-05-29 13:39:58] 第二部分：检查用户配置文件
+[2025-05-29 13:39:58] 第三部分：检查系统级文件
+[2025-05-29 13:39:58] 第四部分：检查系统扩展
+[2025-05-29 13:39:58] 未发现系统扩展
+[2025-05-29 13:39:58] 第五部分：检查临时文件和PID文件
+[2025-05-29 13:39:58] 第六部分：检查残留进程
+[2025-05-29 13:39:58] 未发现残留进程
+[2025-05-29 13:39:58] 第七部分：检查网络配置残留
+[2025-05-29 13:39:58] 未发现VPN网络接口
+[2025-05-29 13:39:58] 第八部分：全局搜索残留文件
+[2025-05-29 13:40:41] 清理检查完成：还有 2 个文件未清理
+[2025-05-29 13:40:41] ========== StrongVPN完全清理检查完成 ==========
+[2025-05-29 13:41:51] ========== StrongVPN完全清理检查开始 ==========
+[2025-05-29 13:41:51] 第一部分：检查应用程序文件
+[2025-05-29 13:41:51] 第二部分：检查用户配置文件
+[2025-05-29 13:41:51] 第三部分：检查系统级文件
+[2025-05-29 13:41:51] 第四部分：检查系统扩展
+[2025-05-29 13:41:51] 未发现系统扩展
+[2025-05-29 13:41:51] 第五部分：检查临时文件和PID文件
+[2025-05-29 13:41:51] 第六部分：检查残留进程
+[2025-05-29 13:41:51] 未发现残留进程
+[2025-05-29 13:41:51] 第七部分：检查网络配置残留
+[2025-05-29 13:41:51] 未发现VPN网络接口
+[2025-05-29 13:41:51] 第八部分：全局搜索残留文件
+[2025-05-29 13:42:34] 清理检查完成：还有 2 个文件未清理
+[2025-05-29 13:42:34] ========== StrongVPN完全清理检查完成 ==========
