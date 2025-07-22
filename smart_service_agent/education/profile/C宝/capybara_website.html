@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡皮巴拉探索之旅 - C宝的动物王国冒险指南</title>
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Preline UI -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/preline/dist/preline.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Dark mode adjustments for scrollbar */
+        .dark ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+        }
+
+        .dark ::-webkit-scrollbar-thumb:hover {
+            background: #718096;
+        }
+
+        /* Card hover effects */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark .card-hover:hover {
+            box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.05), 0 10px 10px -5px rgba(255, 255, 255, 0.02);
+        }
+
+        /* Smooth transitions */
+        .smooth-transition {
+            transition: all 0.3s ease;
+        }
+
+        /* Page sections fade in animation */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+    <!-- Theme toggle button -->
+    <button id="theme-toggle" type="button" class="fixed top-4 right-4 z-50 p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">
+        <i class="fas fa-sun text-yellow-500 dark:hidden"></i>
+        <i class="fas fa-moon text-blue-300 hidden dark:block"></i>
+    </button>
+
+    <!-- Header section -->
+    <header class="relative overflow-hidden bg-primary-600 dark:bg-primary-800">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-r from-primary-700/90 to-primary-600/90 dark:from-primary-900/90 dark:to-primary-800/90"></div>
+        </div>
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+            <div class="text-center">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white mb-6 animate-fade-in">
+                    卡皮巴拉探索之旅
+                </h1>
+                <p class="text-xl sm:text-2xl font-medium text-primary-100 max-w-3xl mx-auto animate-fade-in">
+                    C宝的动物王国冒险指南
+                </p>
+                <div class="mt-10">
+                    <a href="#adventure-map" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-700 bg-white hover:bg-primary-50 transition-colors duration-200 shadow-md hover:shadow-lg">
+                        开始冒险 <i class="fas fa-arrow-down ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decorative capybara silhouettes -->
+        <div class="absolute bottom-0 left-0 h-24 w-24 md:h-32 md:w-32 opacity-20">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="text-white">
+                <path d="M65,35 C78,35 88,45 88,58 C88,71 78,81 65,81 L35,81 C22,81 12,71 12,58 C12,45 22,35 35,35 L65,35 Z M40,45 C36.7,45 34,47.7 34,51 C34,54.3 36.7,57 40,57 C43.3,57 46,54.3 46,51 C46,47.7 43.3,45 40,45 Z M60,45 C56.7,45 54,47.7 54,51 C54,54.3 56.7,57 60,57 C63.3,57 66,54.3 66,51 C66,47.7 63.3,45 60,45 Z M30,65 L70,65 C72.2,65 74,66.8 74,69 C74,71.2 72.2,73 70,73 L30,73 C27.8,73 26,71.2 26,69 C26,66.8 27.8,65 30,65 Z"></path>
+            </svg>
+        </div>
+        <div class="absolute bottom-0 right-0 h-24 w-24 md:h-32 md:w-32 opacity-20">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="text-white">
+                <path d="M65,35 C78,35 88,45 88,58 C88,71 78,81 65,81 L35,81 C22,81 12,71 12,58 C12,45 22,35 35,35 L65,35 Z M40,45 C36.7,45 34,47.7 34,51 C34,54.3 36.7,57 40,57 C43.3,57 46,54.3 46,51 C46,47.7 43.3,45 40,45 Z M60,45 C56.7,45 54,47.7 54,51 C54,54.3 56.7,57 60,57 C63.3,57 66,54.3 66,51 C66,47.7 63.3,45 60,45 Z M30,65 L70,65 C72.2,65 74,66.8 74,69 C74,71.2 72.2,73 70,73 L30,73 C27.8,73 26,71.2 26,69 C26,66.8 27.8,65 30,65 Z"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Introduction -->
+        <section class="mb-16 fade-in-section">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                <div class="p-6 md:p-8">
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">嗨，C宝！</h2>
+                            <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">
+                                听说你对卡皮巴拉感兴趣？太棒了！这些超级可爱的"水豚先生"绝对是动物界的明星！我自己也是被它们那圆滚滚的身体和永远看起来很淡定的表情给迷住了。
+                            </p>
+                            <p class="text-lg text-gray-700 dark:text-gray-300">
+                                作为一个和这些"和平使者"打过不少交道的动物爱好者，我特别想和你分享我的发现和小秘密。把我当成你的卡皮巴拉探险伙伴吧！🌿
+                            </p>
+                        </div>
+                        <div class="w-full md:w-1/3 rounded-lg overflow-hidden shadow-lg">
+                            <img
+                                src="../../image/kapi.webp"
+                                alt="卡皮巴拉公仔"
+                                class="w-full h-auto object-cover rounded-lg"
+                                loading="lazy"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Knowledge Section -->
+        <section id="core-knowledge" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center mb-8">
+                <span class="inline-block">✨ 解锁核心秘籍：认识卡皮巴拉的80/20法则 ✨</span>
+            </h2>
+            <p class="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto mb-8 text-center">
+                想快速成为卡皮巴拉小专家吗？我帮你整理了最重要的知识点，这些是认识这个神奇动物的"黄金必学"！
+            </p>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden mb-8">
+                <div class="p-4 md:p-6 table-scroll">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead>
+                            <tr>
+                                <th class="px-4 py-3 bg-gray-50 dark:bg-gray-700 text-left text-sm font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">关键秘籍 / 知识点 🔑</th>
+                                <th class="px-4 py-3 bg-gray-50 dark:bg-gray-700 text-left text-sm font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">为啥它这么重要/好玩？ 😎</th>
+                                <th class="px-4 py-3 bg-gray-50 dark:bg-gray-700 text-center text-sm font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">重要指数 🌟</th>
+                                <th class="px-4 py-3 bg-gray-50 dark:bg-gray-700 text-center text-sm font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">上手难度 🚦</th>
+                                <th class="px-4 py-3 bg-gray-50 dark:bg-gray-700 text-left text-sm font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wider">过来人小提示 💡</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            <!-- Table row 1 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>卡皮巴拉是什么</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它是世界上最大的啮齿类动物！比一般的兔子大很多很多，像小沙发一样！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟢</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">想象一只超大的豚鼠或海狸，但性格超级温和！</td>
+                            </tr>
+                            <!-- Table row 2 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>友好社交大师</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们超级友善，连鳄鱼都不会攻击它们，小鸟会站在它们背上！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟢</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们是动物界的"交友达人"，几乎和所有动物都能和平相处！</td>
+                            </tr>
+                            <!-- Table row 3 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>水中生活</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们超爱游泳，有蹼状的脚，能在水下待5分钟！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟢</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">卡皮巴拉的名字在南美洲的语言中就是"水草大师"的意思！</td>
+                            </tr>
+                            <!-- Table row 4 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>群居生活</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们喜欢成群生活，有家庭观念，经常10-20只一起活动！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟢</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们就像有个大家族，团结友爱，互相照顾！</td>
+                            </tr>
+                            <!-- Table row 5 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>主要栖息地</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们来自南美洲，生活在巴西、委内瑞拉等地的湿地和河流附近。</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟢</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">想象它们在亚马逊雨林的河边晒太阳的样子！</td>
+                            </tr>
+                            <!-- Table row 6 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>饮食习惯</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们是素食主义者，主要吃水草、水果和树皮！每天能吃下相当于自己体重8%的食物！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟢</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们有特殊的牙齿，会不断生长，所以需要一直啃东西！</td>
+                            </tr>
+                            <!-- Table row 7 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>独特的叫声</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们会发出各种声音交流：吱吱声、口哨声、咕噜声等！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟡</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">试着用嘴模仿"啾-啾-啾"的声音，这是它们开心时的叫声！</td>
+                            </tr>
+                            <!-- Table row 8 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>身体特征</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">圆乎乎的身体，小耳朵，没有尾巴，眼睛鼻子在头顶部，方便游泳时露出水面呼吸！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟢</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们的脸总是看起来很淡定，有点像在微笑！</td>
+                            </tr>
+                            <!-- Table row 9 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>繁殖习性</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">小卡皮巴拉出生就能走路和游泳，一胎通常有4-5只小宝宝！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟡</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">小卡皮巴拉出生时就有完整的牙齿，超厉害的！</td>
+                            </tr>
+                            <!-- Table row 10 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>温度调节</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">它们没有汗腺，所以需要泡在水里或泥巴中降温！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟢</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">这就是为什么它们喜欢待在水边，炎热时它们就像在做"泥巴浴"！</td>
+                            </tr>
+                            <!-- Table row 11 -->
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                                <td class="px-4 py-4 text-sm font-medium text-gray-900 dark:text-white"><strong>保护状况</strong></td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">在野外它们数量还不少，但要注意保护它们的栖息地！</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">⭐️⭐️⭐️</td>
+                                <td class="px-4 py-4 text-center text-sm text-gray-700 dark:text-gray-300">🟡</td>
+                                <td class="px-4 py-4 text-sm text-gray-700 dark:text-gray-300">很多动物园和野生动物园都有卡皮巴拉，可以去看看哦！</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Adventure Map Section -->
+        <section id="adventure-map" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center mb-8">
+                <span class="inline-block">🏆 你的"史诗级"冒险地图：卡皮巴拉探险之旅！🏆</span>
+            </h2>
+            <p class="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto mb-12 text-center">
+                从一名卡皮巴拉的初识者到变成真正的卡皮巴拉专家，这条路上有好多有趣的里程碑！每完成一个，你就离卡皮巴拉世界更近一步！
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Milestone 1 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full mb-4 mx-auto">
+                            <span class="text-xl font-bold text-primary-700 dark:text-primary-300">1</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
+                            "初遇水豚"
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">第一次认识卡皮巴拉</p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">爽点体验：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                当你第一次看到卡皮巴拉的照片或视频时，那种"哇！这动物也太可爱了吧！"的惊喜感真的很特别！它们圆圆的脸和永远淡定的表情，绝对会让你忍不住微笑！
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">小任务：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                收集5张不同姿势的卡皮巴拉照片，观察它们的特征。找一个笔记本，画下你最喜欢的卡皮巴拉，并写下它为什么吸引你。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone 2 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full mb-4 mx-auto">
+                            <span class="text-xl font-bold text-primary-700 dark:text-primary-300">2</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
+                            "水豚百科"
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">掌握卡皮巴拉基础知识</p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">爽点体验：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                当你能自信地向小伙伴或家人介绍"卡皮巴拉是世界上最大的啮齿动物"这类知识时，那种"我懂的可多了"的自豪感超棒的！你会发现自己成了大家眼中的"小动物专家"！
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">小任务：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                制作一张卡皮巴拉知识卡片，上面写5个最有趣的卡皮巴拉事实，然后向家人展示你的发现。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone 3 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full mb-4 mx-auto">
+                            <span class="text-xl font-bold text-primary-700 dark:text-primary-300">3</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
+                            "模仿大师"
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">学习卡皮巴拉的行为</p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">爽点体验：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                模仿卡皮巴拉的动作和表情超有趣！试着像它们一样悠闲地"泡澡"，或者模仿它们淡定的表情，会让你和朋友笑个不停！这是了解动物习性的超级有趣方式！
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">小任务：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                看一段卡皮巴拉视频，学习它们是如何移动、吃东西或休息的，然后试着模仿给家人看。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone 4 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full mb-4 mx-auto">
+                            <span class="text-xl font-bold text-primary-700 dark:text-primary-300">4</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
+                            "艺术家之眼"
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">创作卡皮巴拉艺术品</p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">爽点体验：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                当你完成自己的卡皮巴拉绘画、手工或故事时，那种创造的成就感非常棒！看着自己的作品，会有"我创造了它！"的骄傲感，尤其是当家人朋友称赞你的作品时！
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">小任务：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                用彩泥捏一个卡皮巴拉，或者画一幅卡皮巴拉在做什么的图画。试着给它起个名字，想象它的性格。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone 5 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full mb-4 mx-auto">
+                            <span class="text-xl font-bold text-primary-700 dark:text-primary-300">5</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
+                            "故事编织者"
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">创造卡皮巴拉故事</p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">爽点体验：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                当你开始创作自己的卡皮巴拉故事时，你会感到自己的想象力无限延展！将这个可爱的动物放入你创造的冒险中，会让你体验到"我是一个真正的故事创作者"的快乐！
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">小任务：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                编一个短故事，主角是一只名叫"泡泡"的卡皮巴拉，讲述它的一天冒险。可以口述给家人听或者请家人帮你写下来。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone 6 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full mb-4 mx-auto">
+                            <span class="text-xl font-bold text-primary-700 dark:text-primary-300">6</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
+                            "迷你专家"
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">向他人分享卡皮巴拉知识</p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">爽点体验：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                当你能自信地向老师、同学或亲戚介绍卡皮巴拉时，那种"我是这个领域的小专家"的感觉真的很棒！看到别人因为你分享的知识而惊讶或感兴趣，会让你特别有成就感！
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">小任务：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                准备一个简短的"卡皮巴拉介绍"，可以在课堂上或家庭聚会时分享。包括3个最酷的卡皮巴拉事实和一张你最喜欢的图片。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone 7 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full mb-4 mx-auto">
+                            <span class="text-xl font-bold text-primary-700 dark:text-primary-300">7</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
+                            "保护小卫士"
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">了解野生动物保护</p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">爽点体验：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                当你意识到自己不只是喜欢卡皮巴拉，还在为保护它们和其他野生动物出一份力时，会有一种特别温暖的责任感和满足感。知道自己正在帮助这个世界变得更好！
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">小任务：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                了解卡皮巴拉在野外面临的挑战，思考如何保护它们的家园。制作一张"保护卡皮巴拉"的海报。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Milestone 8 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-1 bg-gradient-to-r from-green-400 to-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-full mb-4 mx-auto">
+                            <span class="text-xl font-bold text-primary-700 dark:text-primary-300">8</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
+                            "探险家之旅"
+                        </h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 text-center mb-4">实地参观动物园或展览</p>
+
+                        <div class="mb-4">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">爽点体验：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                哇！第一次亲眼看到真实的卡皮巴拉时，那种兴奋感简直难以形容！观察它们悠闲地走动或游泳，听到它们发出的声音，甚至闻到它们的气味，会给你一种"我真的走进了它们的世界"的感觉！
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">小任务：</h4>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                如果有机会，参观有卡皮巴拉的动物园或展览。带上笔记本，记录你观察到的一切：它们在做什么？看起来像什么？有什么让你惊讶的地方？
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Training Camp Section -->
+        <section id="training-camp" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center mb-8">
+                <span class="inline-block">🗺️ 实战训练营：日常小练+每周挑战+给力习惯 🗺️</span>
+            </h2>
+            <p class="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto mb-12 text-center">
+                想成为卡皮巴拉小达人？这里有一些简单又有趣的活动，帮你逐步深入了解这个可爱的动物！
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Daily Tasks -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-pink-500 dark:bg-pink-700 px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-bullseye text-white text-2xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-medium text-white">
+                                🎯 每日"热身"小任务
+                            </h3>
+                        </div>
+                        <p class="mt-1 text-sm text-pink-100">选1-2个轻松搞定</p>
+                    </div>
+                    <div class="px-6 py-5">
+                        <ul class="space-y-4">
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-pink-500 dark:text-pink-400 mt-1"></i>
+                                </div>
+                                <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                    每天收集或画一张不同姿势的卡皮巴拉图片，做一本"卡皮巴拉图鉴"
+                                </p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-pink-500 dark:text-pink-400 mt-1"></i>
+                                </div>
+                                <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                    花5分钟看卡皮巴拉相关的短视频，观察它们的行为和习性
+                                </p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-pink-500 dark:text-pink-400 mt-1"></i>
+                                </div>
+                                <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                    用积木或玩具搭建一个适合卡皮巴拉生活的小环境
+                                </p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-pink-500 dark:text-pink-400 mt-1"></i>
+                                </div>
+                                <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                    每天学习一个关于卡皮巴拉的新单词或新知识
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Weekly Challenges -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-purple-500 dark:bg-purple-700 px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-trophy text-white text-2xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-medium text-white">
+                                ⚔️ 每周"探索"挑战
+                            </h3>
+                        </div>
+                        <p class="mt-1 text-sm text-purple-100">选1个投入试试</p>
+                    </div>
+                    <div class="px-6 py-5">
+                        <ul class="space-y-4">
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-purple-500 dark:text-purple-400 mt-1"></i>
+                                </div>
+                                <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                    制作一个卡皮巴拉的小手工，可以用纸盒、彩泥或回收材料
+                                </p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-purple-500 dark:text-purple-400 mt-1"></i>
+                                </div>
+                                <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                    画一幅卡皮巴拉的全家福，想象它们住在哪里，一家人都在做什么
+                                </p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-purple-500 dark:text-purple-400 mt-1"></i>
+                                </div>
+                                <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                    写一个或讲一个以卡皮巴拉为主角的短故事
+                                </p>
+                            </li>
+                            <li class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-check-circle text-purple-500 dark:text-purple-400 mt-1"></i>
+                                </div>
+                                <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                    和家人一起看一部有关卡皮巴拉或南美洲野生动物的纪录片
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Good Habits -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                    <div class="bg-blue-500 dark:bg-blue-700 px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-lightbulb text-white text-2xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-medium text-white">
+                                💡 "超级充能"好习惯
+                            </h3>
+                        </div>
+                        <p class="mt-1 text-sm text-blue-100">养成这些，你会感谢自己</p>
+                    </div>
+                    <div class="px-6 py-5">
+                        <ul class="space-y-6">
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">习惯1: 好奇心日记</h4>
+                                <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                    "每天记录一个关于卡皮巴拉或其他动物的问题，然后找答案。久而久之，你会发现自己积累了好多知识，变成了小小博学家！"
+                                </p>
+                            </li>
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">习惯2: 分享时刻</h4>
+                                <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                    "每周至少找一次机会和家人朋友分享你学到的卡皮巴拉知识。分享不仅能让你记得更牢，还能让你的表达能力悄悄提升哦！"
+                                </p>
+                            </li>
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">习惯3: 自然观察</h4>
+                                <p class="mt-2 text-sm text-gray-700 dark:text-gray-300">
+                                    "培养观察自然和动物的习惯，哪怕是小区里的小动物。你会发现很多动物其实有相似的行为，这能帮助你更好地理解卡皮巴拉！"
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Capybara Fun Feature -->
+        <section class="mb-16 fade-in-section">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                <div class="p-6 md:p-8">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">卡皮巴拉的休闲时光</h2>
+
+                    <div class="flex flex-col md:flex-row gap-8 items-center">
+                        <div class="w-full md:w-2/3 rounded-lg overflow-hidden shadow-lg">
+                            <img
+                                src="../../image/卡皮巴拉111.jpg"
+                                alt="一只戴草帽在海滩度假的卡皮巴拉"
+                                class="w-full h-auto object-cover rounded-lg"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">度假中的卡皮巴拉</h3>
+                            <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">
+                                卡皮巴拉不只是野生动物，它们也懂得如何享受生活！看这只戴着草帽、穿着夏威夷衬衫，悠闲地在沙滩上小憩的卡皮巴拉，喝着清凉饮料，简直就是度假达人！
+                            </p>
+                            <p class="text-lg text-gray-700 dark:text-gray-300">
+                                这张有趣的照片提醒我们，学习和探索的过程中，别忘了带着轻松愉快的心情。就像卡皮巴拉一样，时刻保持着淡定和放松，才能更好地享受探索的过程！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secret Weapons Section - School Knowledge -->
+        <section id="secret-weapons" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center mb-8">
+                <span class="inline-block">🛠️ 秘密武器库：学校知识变身超强助攻！🛠️</span>
+            </h2>
+            <p class="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto mb-12 text-center">
+                二年级的你在学校学到的知识，其实可以派上大用场，帮你更好地探索卡皮巴拉的奥秘！
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Item 1 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-red-100 dark:bg-red-900 p-3 rounded-full">
+                                <i class="fas fa-book text-red-500 dark:text-red-300 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                                    语文课的阅读能力
+                                </h3>
+                                <div class="flex items-center mb-3">
+                                    <i class="fas fa-arrow-right text-primary-500 mr-2"></i>
+                                    <p class="text-gray-700 dark:text-gray-300">
+                                        帮你读懂更多关于卡皮巴拉的故事和资料
+                                    </p>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    认识更多描述动物的词语，比如"温顺"、"群居"等。认识这些词后，你能更准确地描述卡皮巴拉的特点！
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-blue-100 dark:bg-blue-900 p-3 rounded-full">
+                                <i class="fas fa-calculator text-blue-500 dark:text-blue-300 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                                    数学的测量和比较
+                                </h3>
+                                <div class="flex items-center mb-3">
+                                    <i class="fas fa-arrow-right text-primary-500 mr-2"></i>
+                                    <p class="text-gray-700 dark:text-gray-300">
+                                        理解卡皮巴拉的体型和重量
+                                    </p>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    卡皮巴拉有多重？有多长？比你高还是比你矮？用你学过的测量单位（厘米、千克）来理解卡皮巴拉的体型，太酷了！你可以测量60厘米的长度，那就是一只小卡皮巴拉的长度！
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-green-100 dark:bg-green-900 p-3 rounded-full">
+                                <i class="fas fa-flask text-green-500 dark:text-green-300 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                                    科学课上的动物分类
+                                </h3>
+                                <div class="flex items-center mb-3">
+                                    <i class="fas fa-arrow-right text-primary-500 mr-2"></i>
+                                    <p class="text-gray-700 dark:text-gray-300">
+                                        了解卡皮巴拉在动物王国中的位置
+                                    </p>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    卡皮巴拉属于啮齿类动物，和老鼠、松鼠是"远亲"。你在科学课上学的动物分类知识，可以帮你理解卡皮巴拉在动物王国中的位置！
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="p-6">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 bg-yellow-100 dark:bg-yellow-900 p-3 rounded-full">
+                                <i class="fas fa-paint-brush text-yellow-500 dark:text-yellow-300 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                                    美术课的创作技巧
+                                </h3>
+                                <div class="flex items-center mb-3">
+                                    <i class="fas fa-arrow-right text-primary-500 mr-2"></i>
+                                    <p class="text-gray-700 dark:text-gray-300">
+                                        绘制卡皮巴拉的形状和色彩
+                                    </p>
+                                </div>
+                                <p class="text-gray-600 dark:text-gray-400">
+                                    画卡皮巴拉时，记得用简单的圆形和椭圆形来构建它的身体。美术课上学的颜色搭配知识，能帮你画出卡皮巴拉棕色的毛发和它们生活的绿色环境！
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pitfall Guide Section -->
+        <section id="pitfall-guide" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center mb-8">
+                <span class="inline-block">🧭 避坑指南针：过来人帮你绕开弯路！🧭</span>
+            </h2>
+            <p class="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto mb-8 text-center">
+                探索卡皮巴拉的世界时，有些小"坑"需要注意避开，这样你的探索之旅会更顺利哦！
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+                <!-- Common Mistakes -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-red-500 dark:bg-red-700 px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-medium text-white">
+                                ⚠️ 最容易掉进去的"坑"
+                            </h3>
+                        </div>
+                        <p class="mt-1 text-sm text-red-100">常见错误</p>
+                    </div>
+                    <div class="px-6 py-5">
+                        <ul class="space-y-6">
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">错误1: 把卡皮巴拉叫成"大豚鼠"或"水豚"</h4>
+                                <div class="mt-2 flex items-start">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <i class="fas fa-arrow-right text-red-500 dark:text-red-400"></i>
+                                    </div>
+                                    <p class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                                        <strong class="text-red-600 dark:text-red-400">纠错小贴士:</strong> 虽然它们看起来像大豚鼠，但卡皮巴拉是一个独立的物种，有自己的科学名称！学会正确发音："卡-皮-巴-拉"，这样你听起来就像个小专家！
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">错误2: 以为卡皮巴拉只是个大号仓鼠</h4>
+                                <div class="mt-2 flex items-start">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <i class="fas fa-arrow-right text-red-500 dark:text-red-400"></i>
+                                    </div>
+                                    <p class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                                        <strong class="text-red-600 dark:text-red-400">纠错小贴士:</strong> 卡皮巴拉其实有很多特殊本领，比如能在水下憋气5分钟，能和很多动物和平相处。了解这些特点，你会发现它们比普通宠物啮齿类动物有趣多了！
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">错误3: 只关注卡皮巴拉的可爱外表</h4>
+                                <div class="mt-2 flex items-start">
+                                    <div class="flex-shrink-0 mt-1">
+                                        <i class="fas fa-arrow-right text-red-500 dark:text-red-400"></i>
+                                    </div>
+                                    <p class="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                                        <strong class="text-red-600 dark:text-red-400">纠错小贴士:</strong> 卡皮巴拉不仅仅是可爱，它们的社交行为、生存智慧和适应能力都很厉害！多了解这些方面，你会更全面地认识它们。
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Confusing Concepts -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-yellow-500 dark:bg-yellow-700 px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-question-circle text-white text-2xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-medium text-white">
+                                ❓ 容易搞混的"岔路口"
+                            </h3>
+                        </div>
+                        <p class="mt-1 text-sm text-yellow-100">易混淆概念</p>
+                    </div>
+                    <div class="px-6 py-5">
+                        <div class="bg-yellow-50 dark:bg-yellow-900/30 p-4 rounded-lg mb-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex items-center">
+                                    <img src="../../image/卡皮巴拉111.jpg" alt="卡皮巴拉" class="w-16 h-16 object-cover rounded-full border-2 border-yellow-300">
+                                    <h4 class="ml-3 text-base font-medium text-gray-900 dark:text-white">卡皮巴拉</h4>
+                                </div>
+                                <div class="text-2xl font-bold text-yellow-500">VS</div>
+                                <div class="flex items-center">
+                                    <h4 class="mr-3 text-base font-medium text-gray-900 dark:text-white">海狸</h4>
+                                    <div class="w-16 h-16 bg-yellow-200 dark:bg-yellow-800 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-water text-yellow-600 dark:text-yellow-300 text-2xl"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-700 dark:text-gray-300">
+                                它们都喜欢水，但卡皮巴拉没有海狸那样的大尾巴，卡皮巴拉主要吃植物，而海狸会啃树木建造水坝。
+                            </p>
+                        </div>
+                        <div class="text-center py-3">
+                            <p class="text-sm text-gray-500 dark:text-gray-400 italic">
+                                记住这些区别，就不会再把卡皮巴拉和其他动物搞混啦！
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bad Habits -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="bg-purple-500 dark:bg-purple-700 px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-ban text-white text-2xl"></i>
+                            </div>
+                            <h3 class="ml-3 text-xl font-medium text-white">
+                                🚫 需要警惕的"绊脚石"
+                            </h3>
+                        </div>
+                        <p class="mt-1 text-sm text-purple-100">坏习惯</p>
+                    </div>
+                    <div class="px-6 py-5">
+                        <ul class="space-y-6">
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">坏习惯1: 只看照片不了解行为</h4>
+                                <div class="mt-2 flex">
+                                    <div class="flex-shrink-0 bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
+                                        <i class="fas fa-tools text-purple-500 dark:text-purple-300 text-sm"></i>
+                                    </div>
+                                    <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                        <strong class="text-purple-600 dark:text-purple-400">破解方法:</strong> 尝试看一些卡皮巴拉的视频，观察它们是如何行动、吃东西、和其他动物互动的。这样能更好地了解它们的生活方式！
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">坏习惯2: 一下子想知道所有知识</h4>
+                                <div class="mt-2 flex">
+                                    <div class="flex-shrink-0 bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
+                                        <i class="fas fa-tools text-purple-500 dark:text-purple-300 text-sm"></i>
+                                    </div>
+                                    <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                        <strong class="text-purple-600 dark:text-purple-400">破解方法:</strong> 一步一步来，先掌握基础知识，再慢慢深入。每天学一点，积累起来就很多啦！
+                                    </p>
+                                </div>
+                            </li>
+                            <li>
+                                <h4 class="text-base font-medium text-gray-900 dark:text-white">坏习惯3: 害怕问"傻问题"</h4>
+                                <div class="mt-2 flex">
+                                    <div class="flex-shrink-0 bg-purple-100 dark:bg-purple-900 p-2 rounded-full">
+                                        <i class="fas fa-tools text-purple-500 dark:text-purple-300 text-sm"></i>
+                                    </div>
+                                    <p class="ml-3 text-sm text-gray-700 dark:text-gray-300">
+                                        <strong class="text-purple-600 dark:text-purple-400">破解方法:</strong> 没有傻问题！好奇心是探索的动力。不懂就问，这样你会学到更多有趣的知识！
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Team Section -->
+        <section id="support-team" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center mb-8">
+                <span class="inline-block">👨‍👩‍👧‍👦 组建你的"梦想后援团"：和爸妈一起探索卡皮巴拉！👨‍👩‍👧‍👦</span>
+            </h2>
+            <p class="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto mb-12 text-center">
+                想让爸爸妈妈也加入你的卡皮巴拉探索之旅吗？试试这些小方法，让他们成为你最棒的"卡皮巴拉后援团"！
+            </p>
+
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+                <div class="p-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                        <div>
+                            <div class="space-y-8">
+                                <!-- Tip 1 -->
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 dark:bg-primary-700 text-white">
+                                            <i class="fas fa-book-open"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">展示你的"发现日记"</h3>
+                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                            把你画的卡皮巴拉图片、写的小故事或收集的有趣知识展示给爸爸妈妈看。"爸爸妈妈，你们知道卡皮巴拉可以和鳄鱼做朋友吗？我画了一幅它们在一起的图！"
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tip 2 -->
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 dark:bg-primary-700 text-white">
+                                            <i class="fas fa-graduation-cap"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">秀出你的"学以致用"</h3>
+                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                            "妈妈，我用语文课学的形容词来描述卡皮巴拉：它们温顺、友好、悠闲！" 或者 "爸爸，我用数学知识算出了卡皮巴拉每天要吃多少食物，真厉害！"
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tip 3 -->
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 dark:bg-primary-700 text-white">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">提出家庭活动建议</h3>
+                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                            "周末我们能一起去图书馆找卡皮巴拉的书吗？" 或者 "能不能有机会去动物园看看有没有卡皮巴拉？我可以做个小讲解员！"
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="space-y-8">
+                                <!-- Tip 4 -->
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 dark:bg-primary-700 text-white">
+                                            <i class="fas fa-comment-dots"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">分享有趣的动物故事</h3>
+                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                            讲一个你创作的卡皮巴拉小故事，或者分享一个有趣的卡皮巴拉视频。"这个视频里的卡皮巴拉正在吃西瓜，表情太可爱了！"
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Tip 5 -->
+                                <div class="flex">
+                                    <div class="flex-shrink-0">
+                                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 dark:bg-primary-700 text-white">
+                                            <i class="fas fa-hand-holding-heart"></i>
+                                        </div>
+                                    </div>
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">提出合理的请求</h3>
+                                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                            "我能有一个卡皮巴拉的小笔记本记录我的发现吗？" 或 "能帮我打印几张卡皮巴拉的图片做手工吗？我有个有趣的创意！"
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Family illustration -->
+                                <div class="mt-6 flex justify-center">
+                                    <div class="p-4 bg-primary-50 dark:bg-primary-900/30 rounded-lg">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-800 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-male text-blue-500 dark:text-blue-300 text-xl"></i>
+                                            </div>
+                                            <div class="w-12 h-12 bg-pink-100 dark:bg-pink-800 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-female text-pink-500 dark:text-pink-300 text-xl"></i>
+                                            </div>
+                                            <div class="w-10 h-10 bg-green-100 dark:bg-green-800 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-child text-green-500 dark:text-green-300 text-lg"></i>
+                                            </div>
+                                            <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-800 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-paw text-yellow-500 dark:text-yellow-300 text-2xl"></i>
+                                            </div>
+                                        </div>
+                                        <p class="mt-3 text-xs text-center text-gray-500 dark:text-gray-400">
+                                            全家人一起探索卡皮巴拉的世界！
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-4 bg-primary-50 dark:bg-primary-900/30 rounded-lg text-center">
+                        <p class="text-sm text-gray-700 dark:text-gray-300">
+                            <span class="font-medium text-primary-600 dark:text-primary-400">小贴士：</span>
+                            爸爸妈妈可能一开始不太了解卡皮巴拉，但他们一定很愿意支持你的兴趣！坚持分享你的发现，他们会越来越感兴趣的！
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section id="resources" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center mb-8">
+                <span class="inline-block">📚 藏宝图在此：安全又好用的资源推荐！📚</span>
+            </h2>
+            <p class="text-lg text-gray-700 dark:text-gray-300 max-w-4xl mx-auto mb-12 text-center">
+                想更深入地探索卡皮巴拉的世界？这里有一些超棒的资源，都是我精心挑选的，既安全又有趣！
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Resource Card 1: Books -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-2 bg-blue-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="flex-shrink-0 inline-flex p-2 bg-blue-100 dark:bg-blue-900 rounded-full">
+                                <i class="fas fa-book text-blue-500 dark:text-blue-300 text-xl"></i>
+                            </span>
+                            <h3 class="ml-3 text-xl font-bold text-gray-900 dark:text-white">儿童科普图书</h3>
+                        </div>
+
+                        <div class="mb-6">
+                            <p class="text-gray-600 dark:text-gray-400 mb-3">《奇妙的动物世界》系列、《国家地理儿童百科》等书籍中通常会有卡皮巴拉的介绍。</p>
+
+                            <div class="mt-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                    <i class="fas fa-gem mr-1"></i> 推荐理由
+                                </span>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                    这些书有精美的图片和适合你年龄的科普知识，在图书馆或书店就能找到！
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center text-amber-600 dark:text-amber-400">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                <p class="text-xs">
+                                    <strong>安全提示：</strong> 阅读时如有不懂的词汇，可以请爸爸妈妈帮忙解释
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Card 2: Documentaries -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-2 bg-red-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="flex-shrink-0 inline-flex p-2 bg-red-100 dark:bg-red-900 rounded-full">
+                                <i class="fas fa-film text-red-500 dark:text-red-300 text-xl"></i>
+                            </span>
+                            <h3 class="ml-3 text-xl font-bold text-gray-900 dark:text-white">纪录片</h3>
+                        </div>
+
+                        <div class="mb-6">
+                            <p class="text-gray-600 dark:text-gray-400 mb-3">BBC的《动物世界》、《地球脉动》等纪录片中有时会出现卡皮巴拉。</p>
+
+                            <div class="mt-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                                    <i class="fas fa-gem mr-1"></i> 推荐理由
+                                </span>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                    能看到卡皮巴拉在自然环境中的真实生活，超级震撼！
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center text-amber-600 dark:text-amber-400">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                <p class="text-xs">
+                                    <strong>安全提示：</strong> 观看时最好有家长陪同，因为有些自然场景可能需要解释
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Card 3: Zoo Websites -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-2 bg-green-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="flex-shrink-0 inline-flex p-2 bg-green-100 dark:bg-green-900 rounded-full">
+                                <i class="fas fa-globe text-green-500 dark:text-green-300 text-xl"></i>
+                            </span>
+                            <h3 class="ml-3 text-xl font-bold text-gray-900 dark:text-white">动物园官网</h3>
+                        </div>
+
+                        <div class="mb-6">
+                            <p class="text-gray-600 dark:text-gray-400 mb-3">许多动物园的官方网站上有卡皮巴拉的介绍页面和实时摄像头。</p>
+
+                            <div class="mt-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                    <i class="fas fa-gem mr-1"></i> 推荐理由
+                                </span>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                    可以了解到专业的饲养知识，有时还能在线观看卡皮巴拉的日常！
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center text-amber-600 dark:text-amber-400">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                <p class="text-xs">
+                                    <strong>安全提示：</strong> 浏览网页时请在家长监督下进行
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Card 4: Craft Books -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-2 bg-purple-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="flex-shrink-0 inline-flex p-2 bg-purple-100 dark:bg-purple-900 rounded-full">
+                                <i class="fas fa-cut text-purple-500 dark:text-purple-300 text-xl"></i>
+                            </span>
+                            <h3 class="ml-3 text-xl font-bold text-gray-900 dark:text-white">手工书</h3>
+                        </div>
+
+                        <div class="mb-6">
+                            <p class="text-gray-600 dark:text-gray-400 mb-3">《折纸动物大全》、《儿童创意手工制作》等书籍有简单的动物手工教程。</p>
+
+                            <div class="mt-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
+                                    <i class="fas fa-gem mr-1"></i> 推荐理由
+                                </span>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                    可以跟着制作卡皮巴拉的手工作品，既好玩又能锻炼动手能力！
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center text-amber-600 dark:text-amber-400">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                <p class="text-xs">
+                                    <strong>安全提示：</strong> 使用剪刀等工具时一定要有大人在旁边
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Card 5: Magazines -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-2 bg-yellow-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="flex-shrink-0 inline-flex p-2 bg-yellow-100 dark:bg-yellow-900 rounded-full">
+                                <i class="fas fa-newspaper text-yellow-500 dark:text-yellow-300 text-xl"></i>
+                            </span>
+                            <h3 class="ml-3 text-xl font-bold text-gray-900 dark:text-white">动物主题儿童杂志</h3>
+                        </div>
+
+                        <div class="mb-6">
+                            <p class="text-gray-600 dark:text-gray-400 mb-3">《环球少年地理》、《博物》等杂志经常介绍各种野生动物。</p>
+
+                            <div class="mt-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
+                                    <i class="fas fa-gem mr-1"></i> 推荐理由
+                                </span>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                    内容新鲜有趣，每期都有不同主题，适合长期收集阅读！
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center text-amber-600 dark:text-amber-400">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                <p class="text-xs">
+                                    <strong>安全提示：</strong> 如果遇到想深入了解的内容，记得请教家长或老师
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resource Card 6: Resource Collection -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-2 bg-pink-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="flex-shrink-0 inline-flex p-2 bg-pink-100 dark:bg-pink-900 rounded-full">
+                                <i class="fas fa-folder-open text-pink-500 dark:text-pink-300 text-xl"></i>
+                            </span>
+                            <h3 class="ml-3 text-xl font-bold text-gray-900 dark:text-white">收集自己的资源库</h3>
+                        </div>
+
+                        <div class="mb-6">
+                            <p class="text-gray-600 dark:text-gray-400 mb-3">用一个特别的文件夹或笔记本，收集你找到的所有关于卡皮巴拉的信息。</p>
+
+                            <div class="mt-4">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200">
+                                    <i class="fas fa-gem mr-1"></i> 推荐理由
+                                </span>
+                                <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                    慢慢积累，你会拥有属于自己的卡皮巴拉百科全书，这会是一个很酷的收藏！
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                            <div class="flex items-center text-amber-600 dark:text-amber-400">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                <p class="text-xs">
+                                    <strong>安全提示：</strong> 在剪贴收集资料时，记得保管好剪刀和胶水
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion Section -->
+        <section id="conclusion" class="mb-16 fade-in-section">
+            <h2 class="text-3xl font-bold text-center mb-8">
+                <span class="inline-block">🎉 向着动物王国出发吧！未来的小小动物学家！🎉</span>
+            </h2>
+
+            <div class="bg-gradient-to-r from-primary-500 to-primary-600 dark:from-primary-700 dark:to-primary-800 rounded-xl shadow-lg overflow-hidden">
+                <div class="p-8 text-white">
+                    <div class="max-w-3xl mx-auto text-center">
+                        <p class="text-lg mb-6">
+                            看到你对卡皮巴拉这么有兴趣，真的超棒！这段探索之旅一定会充满惊喜和发现。记住，了解动物的过程中，最重要的是保持好奇心和对自然的热爱！
+                        </p>
+                        <p class="text-lg mb-6">
+                            每当你学到新知识，画出新作品，或者想出有趣的问题，都是值得庆祝的时刻！你的每一步探索都在拓展自己的视野，这比什么都重要！
+                        </p>
+                        <p class="text-lg font-medium">
+                            去探索属于你的卡皮巴拉奇妙世界吧，未来的小小动物学家！说不定哪一天，你会发现更多关于这些可爱生物的秘密，甚至成为保护它们的重要一员呢！✨
+                        </p>
+
+                        <div class="mt-10">
+                            <a href="#adventure-map" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-primary-700 bg-white hover:bg-primary-50 transition-colors duration-200 shadow-md hover:shadow-lg">
+                                重新开始探险 <i class="fas fa-redo-alt ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-800 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col items-center">
+                <a href="../../index.html" class="mb-8 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200">
+                    <i class="fas fa-home mr-1"></i> 返回首页
+                </a>
+
+                <div class="mb-4 flex space-x-4">
+                    <a href="https://github.com/OtokoNoIzumi" target="_blank" rel="noopener noreferrer" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="https://space.bilibili.com/82205" target="_blank" rel="noopener noreferrer" class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors duration-200">
+                        <i class="fab fa-bilibili text-xl"></i>
+                    </a>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-gray-500 dark:text-gray-400 text-sm">
+                        作者姓名: C宝
+                    </p>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
+                        © 2025 卡皮巴拉探索之旅. 保留所有权利.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Preline UI JS -->
+    <script src="https://cdn.jsdelivr.net/npm/preline/dist/preline.js"></script>
+
+    <!-- Theme toggle and other interactive elements -->
+    <script>
+        // Check for dark mode preference
+        if (localStorage.getItem('color-theme') === 'dark' ||
+            (!localStorage.getItem('color-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Theme toggle functionality
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        });
+
+        // Fade-in sections on scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeInSections = document.querySelectorAll('.fade-in-section');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            fadeInSections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Table view more functionality
+            document.getElementById('view-more-table').addEventListener('click', function() {
+                alert('更多内容将在完整版中显示！');
+            });
+
+            // Milestones view more functionality
+            document.getElementById('view-more-milestones').addEventListener('click', function() {
+                alert('更多里程碑将在完整版中显示！');
+            });
+        });
+    </script>
+</body>
+</html>

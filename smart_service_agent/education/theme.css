@@ -1,0 +1,257 @@
+/* 主题变量系统 - 鹏十三不下山大会网站 */
+
+:root {
+  /* 基础颜色 - 用于主题系统 */
+  --clr-dark-a0: #000000;
+  --clr-light-a0: #ffffff;
+
+  /* 表面颜色系统 - 用于深色主题 */
+  --clr-surface-a0: #121212;
+  --clr-surface-a10: #282828;
+  --clr-surface-a20: #3f3f3f;
+  --clr-surface-a30: #575757;
+  --clr-surface-a40: #717171;
+  --clr-surface-a50: #8b8b8b;
+
+  /* 色调表面颜色 - 带有暖色调的深色系统 */
+  --clr-surface-tonal-a0: #252221;
+  --clr-surface-tonal-a10: #393736;
+  --clr-surface-tonal-a20: #4f4c4c;
+  --clr-surface-tonal-a30: #666363;
+  --clr-surface-tonal-a40: #7e7b7b;
+  --clr-surface-tonal-a50: #969494;
+
+  /* 颜色：主色调 - 橙色系 */
+  --color-primary-50: #FFF7ED;
+  --color-primary-100: #FFEDD5;
+  --color-primary-200: #FED7AA;
+  --color-primary-300: #FDBA74;
+  --color-primary-400: #FB923C;
+  --color-primary-500: #F97316; /* 主橙色 */
+  --color-primary-600: #EA580C;
+  --color-primary-700: #C2410C;
+  --color-primary-800: #9A3412;
+  --color-primary-900: #7C2D12;
+
+  /* 主题基础色 */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F9FAFB;
+  --color-bg-tertiary: #F1F5F9;
+
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-text-tertiary: #9CA3AF;
+  --color-text-inverted: #FFFFFF;
+
+  --color-border-light: #E5E7EB;
+  --color-border-medium: #D1D5DB;
+  --color-border-dark: #9CA3AF;
+
+  /* 组件样式 */
+  --radius-sm: 0.125rem;
+  --radius-md: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-full: 9999px;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* 动画 */
+  --transition-normal: all 0.3s ease;
+  --transition-slow: all 0.5s ease;
+
+  /* 间距 */
+  --card-padding: 1.25rem;
+}
+
+/* 暗色模式 */
+.dark {
+  /* 颜色：主色调 - 橙色系深色版 */
+  --color-primary-50: #422006;
+  --color-primary-100: #582C08;
+  --color-primary-200: #7C2D12;
+  --color-primary-300: #9A3412;
+  --color-primary-400: #C2410C;
+  --color-primary-500: #F97316; /* 保持主橙色 */
+  --color-primary-600: #FB923C;
+  --color-primary-700: #FDBA74;
+  --color-primary-800: #FED7AA;
+  --color-primary-900: #FFEDD5;
+
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1F2937;
+  --color-bg-tertiary: #374151;
+
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #E5E7EB;
+  --color-text-tertiary: #D1D5DB;
+  --color-text-inverted: #1F2937;
+
+  --color-border-light: #374151;
+  --color-border-medium: #4B5563;
+  --color-border-dark: #6B7280;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.15);
+}
+
+/* 马卡龙主题 - 浅色模式 */
+.theme-macaron {
+  /* 柔和的粉色系统 - 基于用户提供的柔和桃色/粉色 */
+  --color-primary-50: #feeae4;
+  --color-primary-100: #fde5de;
+  --color-primary-200: #fce0d7;
+  --color-primary-300: #fcdad1;
+  --color-primary-400: #fbd5ca;
+  --color-primary-500: #fad0c4;
+  --color-primary-600: #f8b8a8;
+  --color-primary-700: #f5a08c;
+  --color-primary-800: #f28871;
+  --color-primary-900: #ee7055;
+
+  /* 柔和的背景色 */
+  --color-bg-primary: var(--clr-light-a0);
+  --color-bg-secondary: #fff8f6;
+  --color-bg-tertiary: #fff2ee;
+
+  /* 温和的文本色 */
+  --color-text-primary: #543734;
+  --color-text-secondary: #7d514c;
+  --color-text-tertiary: #a6756f;
+  --color-text-inverted: var(--clr-light-a0);
+
+  /* 柔和的边框色 */
+  --color-border-light: #fde5de;
+  --color-border-medium: #fcdad1;
+  --color-border-dark: #fbd5ca;
+}
+
+/* 马卡龙主题 - 深色模式 */
+.dark.theme-macaron {
+  /* 深色模式的主色调 - 采用用户提供的桃色调性但应用于深色环境 */
+  --color-primary-50: var(--clr-surface-tonal-a0); /* #252221 - 最暗 */
+  --color-primary-100: var(--clr-surface-tonal-a10); /* #393736 */
+  --color-primary-200: var(--clr-surface-tonal-a20); /* #4f4c4c */
+  --color-primary-300: var(--clr-surface-tonal-a30); /* #666363 */
+  --color-primary-400: #d98484; /* 修改为浅桃红色，用于横幅渐变 */
+  --color-primary-500: var(--clr-surface-tonal-a50); /* #969494 */
+  --color-primary-600: #c56262; /* 修改为中桃红色，用于横幅渐变 */
+  --color-primary-700: #c6b7b5;
+  --color-primary-800: #ded0ce;
+  --color-primary-900: #f7e9e7; /* 最亮 */
+
+  /* 深色模式下的表面颜色 - 使用用户提供的表面颜色系统 */
+  --color-bg-primary: var(--clr-surface-a0); /* #121212 */
+  --color-bg-secondary: var(--clr-surface-a10); /* #282828 */
+  --color-bg-tertiary: var(--clr-surface-a20); /* #3f3f3f */
+
+  /* 深色模式下的文本色 */
+  --color-text-primary: #efe4e1; /* 主要文本-接近白但不纯白 */
+  --color-text-secondary: #d3c8c5; /* 次要文本-略暗 */
+  --color-text-tertiary: #b7aca9; /* 第三级文本-更暗 */
+  --color-text-inverted: var(--clr-surface-a0); /* 反色文本用于深色按钮等 */
+
+  /* 深色模式下的边框色 */
+  --color-border-light: var(--clr-surface-a20); /* #3f3f3f */
+  --color-border-medium: var(--clr-surface-a30); /* #575757 */
+  --color-border-dark: var(--clr-surface-a40); /* #717171 */
+}
+
+/* 组件样式类 */
+.theme-card {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition-normal);
+}
+
+.theme-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: var(--shadow-xl);
+}
+
+.theme-banner {
+  background: linear-gradient(to right, var(--color-primary-600), var(--color-primary-400));
+  color: var(--color-text-inverted);
+}
+
+.theme-btn {
+  transition: var(--transition-normal);
+}
+
+.theme-btn:hover {
+  transform: translateY(-2px);
+}
+
+.theme-btn:active {
+  transform: translateY(1px);
+}
+
+.theme-img-container {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.theme-img-container img {
+  transition: transform 0.5s ease;
+}
+
+.theme-img-container:hover img {
+  transform: scale(1.05);
+}
+
+.theme-badge {
+  background-color: var(--color-primary-100);
+  color: var(--color-primary-800);
+  border-radius: var(--radius-full);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.dark .theme-badge {
+  background-color: var(--color-primary-900);
+  color: var(--color-primary-300);
+}
+
+.theme-section-title {
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.theme-section-title i {
+  color: var(--color-primary-500);
+  margin-right: 0.75rem;
+}
+
+.theme-avatar {
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 边框和分隔线 */
+.theme-border {
+  border-color: var(--color-border-light);
+}
+
+.theme-border-t {
+  border-top: 1px solid var(--color-border-light);
+}
+
+.theme-border-b {
+  border-bottom: 1px solid var(--color-border-light);
+}
