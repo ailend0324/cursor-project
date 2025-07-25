@@ -18,25 +18,25 @@ fi
 echo "📖 读取配置信息..."
 
 # 提取页面标题
-PAGE_TITLE=$(grep "**页面标题**:" content.md | sed 's/.*: *//' | tr -d '\r')
+PAGE_TITLE=$(grep -F "**页面标题**:" content.md | sed 's/.*: *//' | tr -d '\r')
 if [ -z "$PAGE_TITLE" ]; then
     PAGE_TITLE="我的分享页面"
 fi
 
 # 提取页面副标题
-PAGE_SUBTITLE=$(grep "**页面副标题**:" content.md | sed 's/.*: *//' | tr -d '\r')
+PAGE_SUBTITLE=$(grep -F "**页面副标题**:" content.md | sed 's/.*: *//' | tr -d '\r')
 if [ -z "$PAGE_SUBTITLE" ]; then
     PAGE_SUBTITLE="记录生活中的美好时光"
 fi
 
 # 提取模板类型
-TEMPLATE_TYPE=$(grep "**模板类型**:" content.md | sed 's/.*: *//' | tr -d '\r' | xargs)
+TEMPLATE_TYPE=$(grep -F "**模板类型**:" content.md | sed 's/.*: *//' | tr -d '\r' | xargs)
 if [ -z "$TEMPLATE_TYPE" ]; then
     TEMPLATE_TYPE="travel"
 fi
 
 # 提取页面文件名
-PAGE_FILENAME=$(grep "**页面文件名**:" content.md | sed 's/.*: *//' | tr -d '\r' | xargs)
+PAGE_FILENAME=$(grep -F "**页面文件名**:" content.md | sed 's/.*: *//' | tr -d '\r' | xargs)
 if [ -z "$PAGE_FILENAME" ]; then
     PAGE_FILENAME="my_new_page"
 fi
