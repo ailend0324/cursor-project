@@ -149,15 +149,50 @@ case $TEMPLATE_TYPE in
         # 替换"今日学习要点"标题
         sed -i.bak "s/💡 今日学习要点/🎯 核心亮点/g" "$OUTPUT_DIR/index.html"
         
-        # 替换"学习内容总结"标题和内容
+        # 替换"学习内容总结"标题
         sed -i.bak "s/学习内容总结/📝 主要内容/g" "$OUTPUT_DIR/index.html"
-        sed -i.bak "s/今天的学习主要围绕<strong>网页制作技术<\/strong>展开，涵盖了以下几个重要方面：/通过分析回收宝真实业务数据库，深度学习SQL语法和数据库设计：/g" "$OUTPUT_DIR/index.html"
         
-        # 替换"学习心得"标题
+        # 彻底替换主要内容部分 - 用SQL学习相关内容
+        sed -i.bak "s/今天的学习主要围绕<strong>网页制作技术<\/strong>展开，涵盖了以下几个重要方面：/已完成回收宝业务数据库深度分析，掌握了以下SQL核心技能：/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换具体的学习内容列表
+        sed -i.bak "s/<strong>🎯 HTML基础：<\/strong><br>/<strong>📊 SQL基础语法：<\/strong><br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 了解了HTML的基本结构和常用标签<br>/• 掌握了SELECT、FROM、WHERE等基础查询语法<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 学会了如何组织页面内容的层次结构<br>/• 学会了JOIN表连接和GROUP BY分组统计<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 掌握了语义化标签的重要性和使用方法/• 掌握了窗口函数和复杂子查询技巧/g" "$OUTPUT_DIR/index.html"
+        
+        sed -i.bak "s/<strong>🎨 CSS样式：<\/strong><br>/<strong>🏢 业务理解能力：<\/strong><br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 学习了CSS选择器和基本属性<br>/• 深度理解回收宝二手电商业务模式<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 理解了盒模型的概念和布局原理<br>/• 掌握数据仓库分层架构设计原理<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 掌握了响应式设计的基本思路/• 学会了实时监控和质量控制体系设计/g" "$OUTPUT_DIR/index.html"
+        
+        sed -i.bak "s/<strong>🚀 实战应用：<\/strong><br>/<strong>📈 实际成果：<\/strong><br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 成功创建了个人分享页面<br>/• 已完成20个SQL文件的注释和分析<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 学会了使用GitHub Pages发布网站<br>/• 掌握了55个数据库表的业务逻辑<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 理解了版本控制的重要性/• 建立了完整的数据分析知识体系/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换学习心得部分
         sed -i.bak "s/学习心得/💡 个人感悟/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/通过今天的学习，我深刻体会到<strong>技术学习的乐趣<\/strong>。从最初的一头雾水，到最后成功发布自己的网页，这个过程让我明白了：/通过这次深入的SQL学习和回收宝数据库分析，我深刻体会到<strong>技术与业务结合的重要性<\/strong>。从零基础到掌握企业级数据分析，这个过程让我明白了：/g" "$OUTPUT_DIR/index.html"
         
-        # 替换"下一步学习计划"标题
+        # 替换下一步计划标题和内容
         sed -i.bak "s/下一步学习计划/📊 下一步计划/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/基于今天的学习成果，我制定了以下学习计划：/基于SQL学习成果，我制定了以下数据分析发展计划：/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换短期目标
+        sed -i.bak "s/• 深入学习CSS高级特性，如动画和过渡效果<br>/• 完成剩余35个SQL文件的注释理解<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 练习制作更多不同类型的网页<br>/• 深入学习窗口函数和高级SQL特性<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 学习JavaScript基础，为网页添加交互功能/• 掌握SQL性能调优和数据分析工具/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换中期目标
+        sed -i.bak "s/• 掌握响应式设计的高级技巧<br>/• 能够独立设计数据库表结构<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 学习使用前端框架（如Bootstrap）<br>/• 掌握数据仓库建模方法<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 创建一个完整的个人网站项目/• 具备独立的数据分析和可视化能力/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换长期目标
+        sed -i.bak "s/• 学习后端开发基础<br>/• 成为数据分析领域的专家<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 理解全栈开发的概念<br>/• 具备完整的数据架构设计能力<br>/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/• 能够独立完成小型Web应用项目/• 能够为业务决策提供数据支撑/g" "$OUTPUT_DIR/index.html"
         ;;
 esac
 
