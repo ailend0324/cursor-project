@@ -5,173 +5,373 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的学习笔记分享</title>
     <style>
-        /* 基础样式设置 */
+        /* 导入现代字体 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        /* 基础样式重置 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+        /* 根字体设置 */
+        :root {
+            --primary-color: #6366f1;
+            --primary-light: #8b5cf6;
+            --primary-dark: #4f46e5;
+            --secondary-color: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-muted: #94a3b8;
+            --background-primary: #ffffff;
+            --background-secondary: #f8fafc;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
         }
 
+        /* 主体样式 */
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+            font-size: 16px;
+            line-height: 1.75;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
+            min-height: 100vh;
+            font-feature-settings: "kern" 1, "liga" 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: 0.01em;
+        }
+
+        /* 容器样式 */
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2rem 1.5rem;
         }
 
         /* 头部区域 */
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+            padding: 3rem 2.5rem;
+            background: var(--background-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
         }
 
         .header h1 {
-            font-size: 2.5em;
-            color: #4a5568;
-            margin-bottom: 10px;
+            font-size: clamp(1.875rem, 5vw, 2.5rem);
             font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
         }
 
         .header p {
-            font-size: 1.2em;
-            color: #718096;
-            margin-bottom: 20px;
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .date {
-            background: #667eea;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
             display: inline-block;
-            font-size: 0.9em;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+            box-shadow: var(--shadow-md);
         }
 
         /* 内容区域 */
         .content-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            background: var(--background-primary);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            position: relative;
         }
 
         .content-section h2 {
-            font-size: 1.8em;
-            color: #2d3748;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
+            letter-spacing: -0.015em;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border-color);
         }
 
         .content-section h2::before {
             content: "📚";
-            margin-right: 10px;
-            font-size: 1.2em;
+            margin-right: 0.75rem;
+            font-size: 1.25em;
+        }
+
+        .content-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem 0;
+            letter-spacing: -0.01em;
+        }
+
+        .content-section h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 1.5rem 0 0.75rem 0;
+            letter-spacing: -0.005em;
         }
 
         .content-section p {
-            font-size: 1.1em;
+            font-size: 1rem;
             line-height: 1.8;
-            color: #4a5568;
-            margin-bottom: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            font-weight: 400;
+        }
+
+        /* 引用样式 */
+        blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1.5rem;
+            margin: 1.5rem 0;
+            background: var(--background-secondary);
+            padding: 1.25rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-style: italic;
+        }
+
+        blockquote p {
+            color: var(--text-primary);
+            margin-bottom: 0;
+        }
+
+        /* 列表样式 */
+        ul, ol {
+            margin: 1.25rem 0;
+            padding-left: 0;
+        }
+
+        li {
+            margin: 0.75rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        ul li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.25em;
+            position: absolute;
+            left: 0;
+            top: -0.1em;
+        }
+
+        ol li::before {
+            content: counter(list-item) ".";
+            color: var(--primary-color);
+            font-weight: 600;
+            position: absolute;
+            left: 0;
+        }
+
+        /* 代码样式 */
+        code {
+            background: var(--background-secondary);
+            color: var(--primary-dark);
+            padding: 0.125rem 0.375rem;
+            border-radius: var(--radius-sm);
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 0.875em;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+
+        pre {
+            background: var(--text-primary);
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid #374151;
+            box-shadow: var(--shadow-md);
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            border: none;
+            font-size: 0.875rem;
+            line-height: 1.6;
         }
 
         /* 学习要点样式 */
         .learning-points {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
             color: white;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .learning-points::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
         }
 
         .learning-points h3 {
             color: white;
-            margin-bottom: 15px;
+            margin-bottom: 1rem;
+            font-size: 1.375rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .learning-points p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.125rem;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        /* 强调文本 */
+        strong {
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         /* 分享按钮 */
         .share-section {
             text-align: center;
-            margin: 30px 0;
+            margin: 3rem 0;
         }
 
         .share-buttons {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 1rem;
             flex-wrap: wrap;
+            margin-top: 1.5rem;
         }
 
         .share-btn {
-            padding: 12px 24px;
+            padding: 0.75rem 1.5rem;
             border: none;
-            border-radius: 25px;
-            font-size: 0.9em;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 0.5rem;
+            letter-spacing: 0.025em;
+            box-shadow: var(--shadow-md);
         }
 
         .share-btn.copy {
-            background: #48bb78;
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
         }
 
         .share-btn.copy:hover {
-            background: #38a169;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
         }
 
         .share-btn.download {
-            background: #4299e1;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
         }
 
         .share-btn.download:hover {
-            background: #3182ce;
-            transform: translateY(-2px);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-lg);
         }
 
         /* 页脚 */
         .footer {
             text-align: center;
-            margin-top: 40px;
-            padding: 20px;
+            margin-top: 3rem;
+            padding: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            color: rgba(255, 255, 255, 0.8);
+            border-radius: var(--radius-xl);
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            backdrop-filter: blur(10px);
         }
 
         /* 响应式设计 */
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 1.5rem 1rem;
+            }
+
+            .header {
+                padding: 2rem 1.5rem;
+                margin-bottom: 2rem;
             }
 
             .header h1 {
-                font-size: 2em;
+                font-size: 1.875rem;
             }
 
             .content-section {
-                padding: 25px;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .learning-points {
+                padding: 1.5rem;
             }
 
             .share-buttons {
@@ -185,18 +385,63 @@
             }
         }
 
+        /* 优化滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-secondary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
         /* 动画效果 */
         .fade-in {
-            animation: fadeIn 0.8s ease-in;
+            animation: fadeIn 0.6s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
             }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
 
         .content-section {
-            animation: fadeIn 0.8s ease-in;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .learning-points {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* 鼠标悬停效果 */
+        .content-section:hover {
+            transform: translateY(-2px);
+            transition: transform 0.2s ease;
+        }
+
+        /* 选择文本颜色 */
+        ::selection {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: var(--primary-color);
+            color: white;
         }
     </style>
 </head>
