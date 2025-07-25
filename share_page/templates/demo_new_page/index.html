@@ -160,7 +160,7 @@
         .content-section p {
             font-size: 1rem;
             line-height: 1.8;
-            color: var(--text-secondary);
+            color: var(--text-primary);
             margin-bottom: 1.25rem;
             font-weight: 400;
         }
@@ -173,7 +173,7 @@
             background: var(--background-secondary);
             padding: 1.25rem 1.5rem;
             border-radius: var(--radius-md);
-            font-style: italic;
+            font-style: normal;
         }
 
         blockquote p {
@@ -286,6 +286,58 @@
         strong {
             font-weight: 600;
             color: var(--text-primary);
+        }
+
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--background-primary);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .data-table thead {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+        }
+
+        .data-table th {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-weight: 600;
+            color: white;
+            font-size: 0.875rem;
+            letter-spacing: 0.025em;
+            text-transform: uppercase;
+        }
+
+        .data-table td {
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tbody tr:hover {
+            background: var(--background-secondary);
+            transition: background-color 0.2s ease;
+        }
+
+        .data-table code {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
         /* 分享按钮 */

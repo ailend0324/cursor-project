@@ -168,36 +168,174 @@ EOF
         echo "        <!-- 详细内容区域 -->" >> /tmp/sql_content.html
         echo "        <section class=\"content-section\">" >> /tmp/sql_content.html
         
-        # 将主要内容部分转换为HTML并添加
-        MAIN_CONTENT_HTML=$(echo "$FULL_MAIN_CONTENT" | sed '
-            # 处理标题层级
-            s/^#### \(.*\)/<h4>\1<\/h4>/g
-            s/^### \(.*\)/<h3>\1<\/h3>/g
-            s/^## \(.*\)/<h2>\1<\/h2>/g
+        # 将主要内容部分转换为HTML并添加（使用改进的转换函数）
+        MAIN_CONTENT_HTML=$(echo "$FULL_MAIN_CONTENT" | awk '
+            BEGIN { in_table = 0; in_quote = 0; in_code = 0; quote_content = "" }
             
-            # 处理粗体文本
-            s/\*\*\([^*]*\)\*\*/<strong>\1<\/strong>/g
+            # 处理表格
+            /^\|.*\|.*\|/ {
+                # 结束任何开放的引用块
+                if (in_quote == 1) {
+                    print "<blockquote>" quote_content "</blockquote>"
+                    in_quote = 0
+                    quote_content = ""
+                }
+                
+                if (in_table == 0) {
+                    # 开始表格
+                    print "<table class=\"data-table\">"
+                    print "<thead>"
+                    print "<tr>"
+                    # 处理表头
+                    gsub(/^\|/, "")
+                    gsub(/\|$/, "")
+                    split($0, cols, /\|/)
+                    for (i = 1; i <= length(cols); i++) {
+                        gsub(/^[ \t]+|[ \t]+$/, "", cols[i])
+                        print "<th>" cols[i] "</th>"
+                    }
+                    print "</tr>"
+                    print "</thead>"
+                    print "<tbody>"
+                    in_table = 1
+                    next
+                } else {
+                    # 跳过分隔符行
+                    if (/^[|:\-\s]+$/) {
+                        next
+                    }
+                    # 处理表格数据行
+                    print "<tr>"
+                    gsub(/^\|/, "")
+                    gsub(/\|$/, "")
+                    split($0, cols, /\|/)
+                    for (i = 1; i <= length(cols); i++) {
+                        gsub(/^[ \t]+|[ \t]+$/, "", cols[i])
+                        # 处理代码标记
+                        gsub(/`([^`]*)`/, "<code>\\1</code>", cols[i])
+                        print "<td>" cols[i] "</td>"
+                    }
+                    print "</tr>"
+                    next
+                }
+            }
             
-            # 处理代码标记
-            s/`\([^`]*\)`/<code>\1<\/code>/g
+            # 非表格行，结束表格
+            !/^\|.*\|.*\|/ && in_table == 1 {
+                print "</tbody>"
+                print "</table>"
+                in_table = 0
+            }
             
-            # 处理引用块
-            s/^> /<blockquote><p>/g
+            # 处理其他内容
+            !/^\|.*\|.*\|/ {
+                # 处理标题
+                if (/^#### /) { 
+                    # 结束任何开放的引用块
+                    if (in_quote == 1) {
+                        print "<blockquote>" quote_content "</blockquote>"
+                        in_quote = 0
+                        quote_content = ""
+                    }
+                    gsub(/^#### /, ""); print "<h4>" $0 "</h4>"; next 
+                }
+                if (/^### /) { 
+                    # 结束任何开放的引用块
+                    if (in_quote == 1) {
+                        print "<blockquote>" quote_content "</blockquote>"
+                        in_quote = 0
+                        quote_content = ""
+                    }
+                    gsub(/^### /, ""); print "<h3>" $0 "</h3>"; next 
+                }
+                if (/^## /) { 
+                    # 结束任何开放的引用块
+                    if (in_quote == 1) {
+                        print "<blockquote>" quote_content "</blockquote>"
+                        in_quote = 0
+                        quote_content = ""
+                    }
+                    gsub(/^## /, ""); print "<h2>" $0 "</h2>"; next 
+                }
+                
+                # 处理代码块
+                if (/^```/) {
+                    # 结束任何开放的引用块
+                    if (in_quote == 1) {
+                        print "<blockquote>" quote_content "</blockquote>"
+                        in_quote = 0
+                        quote_content = ""
+                    }
+                    if (in_code == 0) {
+                        print "<pre><code>"
+                        in_code = 1
+                    } else {
+                        print "</code></pre>"
+                        in_code = 0
+                    }
+                    next
+                }
+                
+                # 处理引用块（合并连续的引用行）
+                if (/^> /) {
+                    gsub(/^> /, "")
+                    # 处理粗体
+                    gsub(/\*\*([^*]*)\*\*/, "<strong>\\1</strong>")
+                    if (in_quote == 0) {
+                        quote_content = "<p>" $0
+                        in_quote = 1
+                    } else {
+                        quote_content = quote_content "<br>" $0
+                    }
+                    next
+                }
+                
+                # 非引用行，结束引用块
+                if (in_quote == 1 && !/^> /) {
+                    print "<blockquote>" quote_content "</p></blockquote>"
+                    in_quote = 0
+                    quote_content = ""
+                }
+                
+                # 处理分隔符
+                if (/^---$/) {
+                    print "<hr>"
+                    next
+                }
+                
+                # 处理列表项
+                if (/^- /) {
+                    gsub(/^- /, "")
+                    # 处理代码标记和粗体
+                    gsub(/`([^`]*)`/, "<code>\\1</code>")
+                    gsub(/\*\*([^*]*)\*\*/, "<strong>\\1</strong>")
+                    print "<li>" $0 "</li>"
+                    next
+                }
+                
+                # 处理空行
+                if (/^$/) {
+                    next
+                }
+                
+                # 处理普通段落
+                if (!/^[<#*`>-]/ && !/^```/ && !/^\|/ && !/^---$/) {
+                    # 处理粗体和代码标记
+                    gsub(/\*\*([^*]*)\*\*/, "<strong>\\1</strong>")
+                    gsub(/`([^`]*)`/, "<code>\\1</code>")
+                    print "<p>" $0 "</p>"
+                }
+            }
             
-            # 处理列表项
-            s/^- \(.*\)/<li>\1<\/li>/g
-            
-            # 处理空行
-            /^$/s/^$/<br>/g
-            
-            # 处理普通段落
-            /^[^<#*`>-]/s/^/<p>/
-            /^<p>/s/$/<\/p>/
-            
-            # 处理代码块
-            /^```/,/^```/{
-                s/^```.*$/<pre><code>/g
-                s/^```$/<\/code><\/pre>/g
+            END {
+                # 确保引用块和表格正确结束
+                if (in_quote == 1) {
+                    print "<blockquote>" quote_content "</p></blockquote>"
+                }
+                if (in_table == 1) {
+                    print "</tbody>"
+                    print "</table>"
+                }
             }
         ')
         
