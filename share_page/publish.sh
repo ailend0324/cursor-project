@@ -139,6 +139,25 @@ case $TEMPLATE_TYPE in
         # 替换学习模板的内容
         sed -i.bak "s/📖 我的学习笔记分享/$PAGE_TITLE/g" "$OUTPUT_DIR/index.html"
         sed -i.bak "s/记录学习过程中的重要知识点和心得体会/$PAGE_SUBTITLE/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换核心亮点内容
+        if [ ! -z "$HIGHLIGHT_CONTENT" ]; then
+            HIGHLIGHT_HTML=$(echo "$HIGHLIGHT_CONTENT" | sed 's/$/\\n/g' | tr -d '\n' | sed 's/\\n/<br>/g')
+            sed -i.bak "s/今天学习了网页制作的基础知识，掌握了HTML、CSS的基本用法。最重要的收获是理解了如何将静态内容转换为可分享的网页形式，这为知识传播提供了新的可能性。/$HIGHLIGHT_HTML/g" "$OUTPUT_DIR/index.html"
+        fi
+        
+        # 替换"今日学习要点"标题
+        sed -i.bak "s/💡 今日学习要点/🎯 核心亮点/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换"学习内容总结"标题和内容
+        sed -i.bak "s/学习内容总结/📝 主要内容/g" "$OUTPUT_DIR/index.html"
+        sed -i.bak "s/今天的学习主要围绕<strong>网页制作技术<\/strong>展开，涵盖了以下几个重要方面：/通过分析回收宝真实业务数据库，深度学习SQL语法和数据库设计：/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换"学习心得"标题
+        sed -i.bak "s/学习心得/💡 个人感悟/g" "$OUTPUT_DIR/index.html"
+        
+        # 替换"下一步学习计划"标题
+        sed -i.bak "s/下一步学习计划/📊 下一步计划/g" "$OUTPUT_DIR/index.html"
         ;;
 esac
 
